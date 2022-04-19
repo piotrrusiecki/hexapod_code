@@ -193,6 +193,7 @@ class MyWindow(QMainWindow,Ui_client):
                 self.Key_D = False
                 self.move_point = [325, 635]
                 self.move()
+
     def paintEvent(self,e):
         try:
             qp=QPainter()
@@ -507,7 +508,7 @@ class MyWindow(QMainWindow,Ui_client):
                 print(data)
                 if data=="":
                     self.client.tcp_flag=False
-                    breaks
+                    break
                 elif data[0]==cmd.CMD_SONIC:
                     self.label_sonic.setText('Obstacle:'+data[1]+'cm')
                     #print('Obstacle:',data[1])
