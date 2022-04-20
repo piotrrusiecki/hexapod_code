@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-
 import os
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
-
 import sys
 import math
 from ui_led import Ui_led
@@ -167,7 +165,8 @@ class MyWindow(QMainWindow,Ui_client):
                 print("D")
                 self.move_point = [425, 635]
                 self.move()
-
+    # When you stop pressing a key the move point goes back to it's starting point.
+    
     def keyReleaseEvent(self, event):
         if (event.key() == Qt.Key_W):
             if not (event.isAutoRepeat()) and self.Key_W == True:
@@ -193,7 +192,6 @@ class MyWindow(QMainWindow,Ui_client):
                 self.Key_D = False
                 self.move_point = [325, 635]
                 self.move()
-
     def paintEvent(self,e):
         try:
             qp=QPainter()
@@ -204,6 +202,7 @@ class MyWindow(QMainWindow,Ui_client):
             qp.setRenderHint(QPainter.Antialiasing)
 
             #steering wheel
+            # print('Drawing steering wheel')
             qp.setPen(Qt.NoPen)
             qp.setBrush(QBrush(Qt.gray))# QColor(0,138,255) Qt.white
             qp.drawEllipse(QPoint(325, 635), 100, 100)
@@ -216,6 +215,7 @@ class MyWindow(QMainWindow,Ui_client):
             qp.drawLine(self.move_point[0], 1270-y1, self.move_point[0], y1)
 
             #attitude
+            # print('Drawing tilt')
             qp.drawLine(self.drawpoint[0][0], 80, self.drawpoint[0][0], 280)
             qp.drawLine(700, self.drawpoint[0][1], 900, self.drawpoint[0][1])
             self.label_attitude.move(self.drawpoint[0][0] + 10, self.drawpoint[0][1] + 10)
@@ -224,6 +224,7 @@ class MyWindow(QMainWindow,Ui_client):
             self.label_attitude.setText(str((yaw, pitch)))
 
             #position
+            # print('Drawing pan')
             qp.drawLine(self.drawpoint[1][0], 550, self.drawpoint[1][0],750)
             qp.drawLine(700, self.drawpoint[1][1], 900, self.drawpoint[1][1])
             self.label_position.move(self.drawpoint[1][0] + 10, self.drawpoint[1][1] + 10)
@@ -237,6 +238,7 @@ class MyWindow(QMainWindow,Ui_client):
     def mouseMoveEvent(self, event):
         x = event.pos().x()
         y = event.pos().y()
+        # In this condition we fall into the tilt box
         if x >= 700 and x <= 900:
             if y >= 80 and y <= 280:
                 try:
@@ -254,6 +256,7 @@ class MyWindow(QMainWindow,Ui_client):
                     self.attitude()
                 except Exception as e:
                     print(e)
+        # In this condition we fall into the pan box
             elif y >= 550 and y <= 750:
                 try:
                     self.drawpoint = [[800, 180], [800, 650]]
@@ -270,6 +273,7 @@ class MyWindow(QMainWindow,Ui_client):
                     self.position()
                 except Exception as e:
                     print(e)
+        # In this condition we fall into the movement box
         elif x >= 225 and x <= 425 and y >= 550 and y <= 750:
             r = (x - 325) ** 2 + (635-y) ** 2
             self.drawpoint = [[800, 180], [800, 650]]
@@ -710,6 +714,7 @@ class faceWindow(QMainWindow,Ui_Face):
     def closeEvent(self, event):
         self.timer1.stop()
         self.client.fece_id = False
+
     def readFace(self):
         try:
             if self.Button_Read_Face.text()=="Read Face":
@@ -965,9 +970,9 @@ class calibrationWindow(QMainWindow,Ui_calibration):
         self.point[3][2] = self.four_z.text()
 
         self.Save_to_txt(self.point,'point')
-        reply = QMessageBox.information(self,
-                                        "Message",
-                                        "Saved successfully",
+        reply = QMessageBox.information(self,                        
+                                        "Message",  
+                                        "Saved successfully",  
                                         QMessageBox.Yes)
         #print(command)
     def Read_from_txt(self,filename):
@@ -1011,6 +1016,7 @@ class calibrationWindow(QMainWindow,Ui_calibration):
         elif leg.text() == "Six":
             if leg.isChecked() == True:
                 self.leg = "six"
+
 
 class ColorDialog(QtWidgets.QColorDialog):
     def __init__(self, parent=None):
