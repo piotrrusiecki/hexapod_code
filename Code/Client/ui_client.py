@@ -138,7 +138,7 @@ class Ui_client(object):
         self.slider_twist.setOrientation(QtCore.Qt.Vertical)
         self.slider_twist.setObjectName("slider_twist")
 
-        # Twist label and value
+        # Tilt label and value
         self.label_tilt_value = QtWidgets.QLabel(client)
         self.label_tilt_value.setGeometry(QtCore.QRect(1830, 1200, 120, 30))
         self.label_tilt_value.setFont(font)

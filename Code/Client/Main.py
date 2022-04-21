@@ -99,7 +99,7 @@ class MyWindow(QMainWindow,Ui_client):
 
         #Variable
         self.power_value= [100,100]
-        self.move_point = [325, 635]
+        self.move_point = [750, 1050]
         self.move_flag = False
         self.drawpoint = [[1890, 1050], [1410, 1050]]
         self.action_flag = 1
@@ -148,22 +148,22 @@ class MyWindow(QMainWindow,Ui_client):
             if event.key() == Qt.Key_W:
                 self.Key_W = True
                 print("W")
-                self.move_point = [325, 535]
+                self.move_point = [750, 950]
                 self.move()
             elif event.key() == Qt.Key_S:
                 self.Key_S = True
                 print("S")
-                self.move_point = [325, 735]
+                self.move_point = [750, 1150]
                 self.move()
             elif event.key() == Qt.Key_A:
                 self.Key_A = True
                 print("A")
-                self.move_point = [225, 635]
+                self.move_point = [650, 1050]
                 self.move()
             elif event.key() == Qt.Key_D:
                 self.Key_D = True
                 print("D")
-                self.move_point = [425, 635]
+                self.move_point = [850, 1050]
                 self.move()
     # When you stop pressing a key the move point goes back to it's starting point.
     
@@ -172,25 +172,25 @@ class MyWindow(QMainWindow,Ui_client):
             if not (event.isAutoRepeat()) and self.Key_W == True:
                 print("release W")
                 self.Key_W = False
-                self.move_point = [325, 635]
+                self.move_point = [750, 1050]
                 self.move()
         elif (event.key() == Qt.Key_A):
             if not (event.isAutoRepeat()) and self.Key_A == True:
                 print("release A")
                 self.Key_A = False
-                self.move_point = [325, 635]
+                self.move_point = [750, 1050]
                 self.move()
         elif (event.key() == Qt.Key_S):
             if not (event.isAutoRepeat()) and self.Key_S == True:
                 print("release S")
                 self.Key_S = False
-                self.move_point = [325, 635]
+                self.move_point = [750, 1050]
                 self.move()
         elif (event.key() == Qt.Key_D):
             if not (event.isAutoRepeat()) and self.Key_D == True:
                 print("release D")
                 self.Key_D = False
-                self.move_point = [325, 635]
+                self.move_point = [750, 1050]
                 self.move()
     def paintEvent(self,e):
         try:
@@ -199,20 +199,19 @@ class MyWindow(QMainWindow,Ui_client):
             qp.setPen(QPen(Qt.white,2,Qt.SolidLine))
             qp.drawRect(1740, 900, 300, 300)
             qp.drawRect(1260, 900, 300, 300)
-            qp.drawRect(600, 900, 300, 300)
             qp.setRenderHint(QPainter.Antialiasing)
 
             #steering wheel
             qp.setPen(Qt.NoPen)
             qp.setBrush(QColor(212, 208, 205))
-            qp.drawEllipse(QPoint(325, 635), 100, 100)
+            qp.drawEllipse(QPoint(750, 1050), 150, 150)
             qp.setBrush(QBrush(QColor(138, 99, 83)))
             qp.drawEllipse(QPoint(self.move_point[0], self.move_point[1]), 15, 15)
             qp.setPen(QPen(QColor(138, 99, 83), 2, Qt.SolidLine))
-            x1 = round(math.sqrt(100**2-(self.move_point[1]-635)**2)+325)
-            y1 = round(math.sqrt(100 ** 2 - (self.move_point[0] - 325) ** 2) + 635)
-            qp.drawLine(x1, self.move_point[1], 650-x1, self.move_point[1])
-            qp.drawLine(self.move_point[0], 1270-y1, self.move_point[0], y1)
+            x1 = round(math.sqrt(150**2-(self.move_point[1]-1050)**2)+750)
+            y1 = round(math.sqrt(150 ** 2 - (self.move_point[0] - 750) ** 2) + 1050)
+            qp.drawLine(x1, self.move_point[1], 1500-x1, self.move_point[1])
+            qp.drawLine(self.move_point[0], 2100-y1, self.move_point[0], y1)
 
             #tilt
             qp.drawLine(self.drawpoint[0][0], 900, self.drawpoint[0][0], 1200)
@@ -234,12 +233,12 @@ class MyWindow(QMainWindow,Ui_client):
     def mouseMoveEvent(self, event):
         x = event.pos().x()
         y = event.pos().y()
-        # In this condition we fall into the tilt box
+        # In this condition we hover the mouse in the tilt box
         if ( x >= 1740 and x <= 2040) and (y >= 900 and y <= 1200):
             try:
                 self.drawpoint = [[1890, 1050], [1410, 1050]]
                 if  self.move_flag:
-                    self.move_point = [325, 635]
+                    self.move_point = [750, 1050]
                     self.move_flag = False
                     self.move()
                 if self.Button_IMU.text() == "Close":
@@ -250,60 +249,61 @@ class MyWindow(QMainWindow,Ui_client):
                 self.attitude()
             except Exception as e:
                 print(e)
-        # In this condition we fall into the pan box
+        # In this condition we hover the mouse in the pan box
         if (x >= 1260 and x <= 1560) and (y >= 900 and y <= 1200):
             try:
                 self.drawpoint = [[1890, 1050], [1410, 1050]]
                 if self.move_flag:
-                    self.move_point = [325, 635]
+                    self.move_point = [750, 1050]
                     self.move_flag = False
                     self.move()
                 if self.Button_IMU.text() == "Close":
                     self.Button_IMU.setText("Balance")
-                self.move_point = [325, 635]
+                self.move_point = [750, 1050]
                 self.drawpoint[1][0] = x
                 self.drawpoint[1][1] = y
                 self.update()
                 self.position()
             except Exception as e:
                 print(e)
-        # In this condition we fall into the movement box
-        elif x >= 225 and x <= 425 and y >= 550 and y <= 750:
-            r = (x - 325) ** 2 + (635-y) ** 2
+        # In this condition we hover the mouse in the movement box
+        elif x >= 600 and x <= 900 and y >= 900 and y <= 1200:
+            r = (x - 750) ** 2 + (1050-y) ** 2
             self.drawpoint = [[1890, 1050], [1410, 1050]]
             if self.Button_IMU.text() == "Close":
                 self.Button_IMU.setText("Balance")
-            if r < 10000:
+            if r < 22500:
                 self.move_flag = True
                 self.move_point[0] = x
                 self.move_point[1] = y
                 self.move()
                 self.update()
             else:
-                x = x - 325
-                y = 635 - y
+                x = x - 750
+                y = 1050 - y
                 angle = math.atan2(y, x)
-                self.move_point[0] = 100*math.cos(angle)+325
-                self.move_point[1] = 635-100*math.sin(angle)
+                self.move_point[0] = 150*math.cos(angle)+750
+                self.move_point[1] = 1050-150*math.sin(angle)
                 self.move()
                 self.update()
         elif self.move_flag == True:
-            x = x - 325
-            y = 635 - y
+            x = x - 750
+            y = 1050 - y
             angle = math.atan2(y, x)
-            self.move_point[0] = 100 * math.cos(angle) + 325
-            self.move_point[1] = 635 - 100 * math.sin(angle)
+            self.move_point[0] = 150 * math.cos(angle) + 750
+            self.move_point[1] = 1050 - 150 * math.sin(angle)
             self.move()
             self.update()
 
     def mousePressEvent(self, event):
         x = event.pos().x()
         y = event.pos().y()
+        # In this condition we press mouse button in the tilt box
         if ( x >= 1740 and x <= 2040) and (y >= 900 and y <= 1200):
             try:
                 self.drawpoint = [[1890, 1050], [1410, 1050]]
                 if self.move_flag:
-                    self.move_point = [325, 635]
+                    self.move_point = [750, 1050]
                     self.move_flag = False
                     self.move()
                 if self.Button_IMU.text() == "Close":
@@ -314,11 +314,12 @@ class MyWindow(QMainWindow,Ui_client):
                 self.attitude()
             except Exception as e:
                 print(e)
-        elif x >= 225 and x <= 425 and y >= 550 and y <= 750:
+        # In this condition we press the mouse button in the pane box
+        if (x >= 1260 and x <= 1560) and (y >= 900 and y <= 1200):
             try:
                 self.drawpoint = [[1890, 1050], [1410, 1050]]
                 if self.move_flag:
-                    self.move_point = [325, 635]
+                    self.move_point = [750, 1050]
                     self.move_flag = False
                     self.move()
                 if self.Button_IMU.text() == "Close":
@@ -329,31 +330,33 @@ class MyWindow(QMainWindow,Ui_client):
                 self.position()
             except Exception as e:
                 print(e)
-        elif x >= 225 and x <= 425 and y >= 550 and y <= 750:
-            r = (x - 325) ** 2 + (635 - y) ** 2
+        # In this condition we press the mouse button int he movement box        
+        elif x >= 600 and x <= 900 and y >= 900 and y <= 1200:
+            r = (x - 750) ** 2 + (1050 - y) ** 2
+            print("R: " + str(r))
             self.drawpoint = [[1890, 1050], [1410, 1050]]
             if self.Button_IMU.text() == "Close":
                 self.Button_IMU.setText("Balance")
-            if r < 10000:
+            if r < 22500:
                 self.move_flag = True
                 self.move_point[0] = x
                 self.move_point[1] = y
                 self.move()
                 self.update()
             else:
-                x = x - 325
-                y = 635 - y
+                x = x - 750
+                y = 1050 - y
                 angle = math.atan2(y, x)
-                self.move_point[0] = 100 * math.cos(angle) + 325
-                self.move_point[1] = 635 - 100 * math.sin(angle)
+                self.move_point[0] = 150 * math.cos(angle) + 750
+                self.move_point[1] = 1050 - 150 * math.sin(angle)
                 self.move()
                 self.update()
         elif self.move_flag == True:
-            x = x - 325
-            y = 635 - y
+            x = x - 750
+            y = 1050 - y
             angle = math.atan2(y, x)
-            self.move_point[0] = 100 * math.cos(angle) + 325
-            self.move_point[1] = 635 - 100 * math.sin(angle)
+            self.move_point[0] = 150 * math.cos(angle) + 750
+            self.move_point[1] = 1050 - 150 * math.sin(angle)
             self.move()
             self.update()
 
@@ -362,7 +365,7 @@ class MyWindow(QMainWindow,Ui_client):
         y = event.pos().y()
         print(x,y)
         if self.move_flag:
-            self.move_point = [325, 635]
+            self.move_point = [750, 1050]
             self.move_flag = False
             self.move()
         self.update()
@@ -383,8 +386,8 @@ class MyWindow(QMainWindow,Ui_client):
 
     def move(self):
         try:
-            x = self.map((self.move_point[0]-325),0,100,0,35)
-            y = self.map((635 - self.move_point[1]),0,100,0,35)
+            x = self.map((self.move_point[0]-750),0,150,0,35)
+            y = self.map((1050 - self.move_point[1]),0,150,0,35)
             if self.action_flag == 1:
                 angle = 0
             else:
@@ -402,6 +405,7 @@ class MyWindow(QMainWindow,Ui_client):
             speed=self.client.move_speed
             command = cmd.CMD_MOVE+ "#"+str(self.gait_flag)+"#"+str(round(x))+"#"+str(round(y))\
                       +"#"+str(speed)+"#"+str(round(angle)) +'\n'
+            self.label_move_value.setText(str((round(x), round(y))))
             print(command)
             self.client.send_data(command)
         except Exception as e:
@@ -510,15 +514,12 @@ class MyWindow(QMainWindow,Ui_client):
                     break
                 elif data[0]==cmd.CMD_SONIC:
                     self.label_sonic.setText('Obstacle:'+data[1]+'cm')
-                    #print('Obstacle:',data[1])
                 elif data[0]==cmd.CMD_POWER:
                     try:
                         if len(data)==3:
                             self.power_value[0] = data[1]
                             self.power_value[1] = data[2]
-                            #self.power_value[0] = self.restriction(round((float(data[1]) - 5.00) / 3.40 * 100),0,100)
-                            #self.power_value[1] = self.restriction(round((float(data[2]) - 7.00) / 1.40 * 100),0,100)
-                            #print('Power：',power_value1,power_value2)
+
                     except Exception as e:
                         print(e)
 
@@ -561,29 +562,29 @@ class MyWindow(QMainWindow,Ui_client):
         if mode.text() == "Turn":
             if mode.isChecked() == True:
                 print(mode.text())
-                self.ButtonActionMode1.setChecked(True)
-                self.ButtonActionMode2.setChecked(False)
-                self.action_flag = 1
-        elif mode.text() == "Strafe":
-            if mode.isChecked() == True:
-                print(mode.text())
                 self.ButtonActionMode1.setChecked(False)
                 self.ButtonActionMode2.setChecked(True)
                 self.action_flag = 2
+        elif mode.text() == "Strafe":
+            if mode.isChecked() == True:
+                print(mode.text())
+                self.ButtonActionMode1.setChecked(True)
+                self.ButtonActionMode2.setChecked(False)
+                self.action_flag = 1
     # gaitMode
     def gaitMode(self,mode):
         if mode.text() == "Walk":
             if mode.isChecked() == True:
                 print(mode.text())
-                self.ButtonGaitMode1.setChecked(True)
-                self.ButtonGaitMode2.setChecked(False)
-                self.gait_flag = 1
-        elif mode.text() == "Run":
-            if mode.isChecked() == True:
-                print(mode.text())
                 self.ButtonGaitMode1.setChecked(False)
                 self.ButtonGaitMode2.setChecked(True)
                 self.gait_flag = 2
+        elif mode.text() == "Run":
+            if mode.isChecked() == True:
+                print(mode.text())
+                self.ButtonGaitMode1.setChecked(True)
+                self.ButtonGaitMode2.setChecked(False)
+                self.gait_flag = 1
     #Slider
     def speed(self):
         self.client.move_speed=str(self.slider_speed.value())
@@ -636,7 +637,7 @@ class MyWindow(QMainWindow,Ui_client):
             self.client.send_data(command)
             self.Button_IMU.setText('Balance')
             #print (command)
-    #SNOIC
+    #SONIC
     def sonic(self):
         if self.Button_Sonic.text() == 'Sonar':
             self.timer_sonic.start(100)
