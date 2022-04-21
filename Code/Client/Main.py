@@ -19,7 +19,7 @@ class MyWindow(QMainWindow,Ui_client):
         self.setupUi(self)
         self.setWindowIcon(QIcon('Picture/logo_Mini.png'))
         self.Video.setScaledContents (True)
-       # self.Video.setPixmap(QPixmap('Picture/Spider_client.png'))
+        self.Video.setPixmap(QPixmap('Picture/Spider_client.png'))
 
         self.client=Client()
         file = open('IP.txt', 'r')
@@ -333,7 +333,6 @@ class MyWindow(QMainWindow,Ui_client):
         # In this condition we press the mouse button int he movement box        
         elif x >= 600 and x <= 900 and y >= 900 and y <= 1200:
             r = (x - 750) ** 2 + (1050 - y) ** 2
-            print("R: " + str(r))
             self.drawpoint = [[1890, 1050], [1410, 1050]]
             if self.Button_IMU.text() == "Close":
                 self.Button_IMU.setText("Balance")
@@ -363,7 +362,7 @@ class MyWindow(QMainWindow,Ui_client):
     def mouseReleaseEvent(self, event):
         x = event.pos().x()
         y = event.pos().y()
-        print(x,y)
+        # print(x,y)
         if self.move_flag:
             self.move_point = [750, 1050]
             self.move_flag = False
@@ -426,7 +425,7 @@ class MyWindow(QMainWindow,Ui_client):
         r = self.map((self.drawpoint[0][0]-1890), -150, 150, -15, 15)
         p = self.map((1050-self.drawpoint[0][1]), -150, 150, -15, 15)
         y=self.slider_twist.value()
-        print("Tilt - r: " + str(round(r)) + ", p: " + str(round(p)) + ", z: " + str(round(y))) 
+        # print("Tilt - r: " + str(round(r)) + ", p: " + str(round(p)) + ", z: " + str(round(y))) 
         command = cmd.CMD_ATTITUDE+ "#" + str(round(r)) + "#" + str(round(p)) + "#" + str(round(y)) + '\n'
         print(command)
         self.client.send_data(command)
@@ -434,7 +433,7 @@ class MyWindow(QMainWindow,Ui_client):
         x = self.map((self.drawpoint[1][0]-1410), -150, 150, -40, 40)
         y = self.map((1050-self.drawpoint[1][1]), -150, 150, -40, 40)
         z=self.slider_height.value()
-        print("Position - x: " + str(round(x)) + ", y: " + str(round(y)) + ", z: " + str(round(z))) 
+        # print("Position - x: " + str(round(x)) + ", y: " + str(round(y)) + ", z: " + str(round(z))) 
         command = cmd.CMD_POSITION+ "#" + str(round(x)) + "#" + str(round(y)) + "#" + str(round(z)) + '\n'
         print(command)
         self.client.send_data(command)
@@ -561,13 +560,13 @@ class MyWindow(QMainWindow,Ui_client):
     def actionMode(self,mode):
         if mode.text() == "Turn":
             if mode.isChecked() == True:
-                print(mode.text())
+                # print(mode.text())
                 self.ButtonActionMode1.setChecked(False)
                 self.ButtonActionMode2.setChecked(True)
                 self.action_flag = 2
         elif mode.text() == "Strafe":
             if mode.isChecked() == True:
-                print(mode.text())
+                # print(mode.text())
                 self.ButtonActionMode1.setChecked(True)
                 self.ButtonActionMode2.setChecked(False)
                 self.action_flag = 1
@@ -575,13 +574,13 @@ class MyWindow(QMainWindow,Ui_client):
     def gaitMode(self,mode):
         if mode.text() == "Walk":
             if mode.isChecked() == True:
-                print(mode.text())
+                # print(mode.text())
                 self.ButtonGaitMode1.setChecked(False)
                 self.ButtonGaitMode2.setChecked(True)
                 self.gait_flag = 2
         elif mode.text() == "Run":
             if mode.isChecked() == True:
-                print(mode.text())
+                # print(mode.text())
                 self.ButtonGaitMode1.setChecked(True)
                 self.ButtonGaitMode2.setChecked(False)
                 self.gait_flag = 1
