@@ -19,7 +19,7 @@ class Ui_client(object):
         font.setFamily("Arial")
         client.setFont(font)
         client.setStyleSheet(   
-                "QWidget{ background:#f3f3f3 }"
+                "QWidget{ background:#e9e9e9 }"
         
                 "QAbstractButton{ border-style:outset; border-radius:5px; border-color: #d3d3d3; padding:5px; color:#1a1a1a; background:#fafafa }"
                 "QAbstractButton:hover{ color:#1a1a1a; background-color:#e8e8e8 }"

@@ -6,12 +6,12 @@ import math
 from ui_led import Ui_led
 from ui_face import Ui_Face
 from ui_client import Ui_client
+from ui_calibration import *
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from Client import *
-from Calibration import *
 
 class MyWindow(QMainWindow,Ui_client):
     def __init__(self):
@@ -166,7 +166,7 @@ class MyWindow(QMainWindow,Ui_client):
                 self.move_point = [850, 1050]
                 self.move()
     # When you stop pressing a key the move point goes back to it's starting point.
-    
+
     def keyReleaseEvent(self, event):
         if (event.key() == Qt.Key_W):
             if not (event.isAutoRepeat()) and self.Key_W == True:
@@ -330,7 +330,7 @@ class MyWindow(QMainWindow,Ui_client):
                 self.position()
             except Exception as e:
                 print(e)
-        # In this condition we press the mouse button int he movement box        
+        # In this condition we press the mouse button int he movement box
         elif x >= 600 and x <= 900 and y >= 900 and y <= 1200:
             r = (x - 750) ** 2 + (1050 - y) ** 2
             self.drawpoint = [[1890, 1050], [1410, 1050]]
@@ -425,7 +425,7 @@ class MyWindow(QMainWindow,Ui_client):
         r = self.map((self.drawpoint[0][0]-1890), -150, 150, -15, 15)
         p = self.map((1050-self.drawpoint[0][1]), -150, 150, -15, 15)
         y=self.slider_twist.value()
-        # print("Tilt - r: " + str(round(r)) + ", p: " + str(round(p)) + ", z: " + str(round(y))) 
+        # print("Tilt - r: " + str(round(r)) + ", p: " + str(round(p)) + ", z: " + str(round(y)))
         command = cmd.CMD_ATTITUDE+ "#" + str(round(r)) + "#" + str(round(p)) + "#" + str(round(y)) + '\n'
         print(command)
         self.client.send_data(command)
@@ -433,7 +433,7 @@ class MyWindow(QMainWindow,Ui_client):
         x = self.map((self.drawpoint[1][0]-1410), -150, 150, -40, 40)
         y = self.map((1050-self.drawpoint[1][1]), -150, 150, -40, 40)
         z=self.slider_height.value()
-        # print("Position - x: " + str(round(x)) + ", y: " + str(round(y)) + ", z: " + str(round(z))) 
+        # print("Position - x: " + str(round(x)) + ", y: " + str(round(y)) + ", z: " + str(round(z)))
         command = cmd.CMD_POSITION+ "#" + str(round(x)) + "#" + str(round(y)) + "#" + str(round(z)) + '\n'
         print(command)
         self.client.send_data(command)
@@ -798,9 +798,11 @@ class calibrationWindow(QMainWindow,Ui_calibration):
         self.set_point(self.point)
         self.client=client
         self.leg='one'
+
         self.x=0
         self.y=0
         self.z=0
+
         self.radioButton_one.setChecked(True)
         self.radioButton_one.toggled.connect(lambda: self.leg_point(self.radioButton_one))
         self.radioButton_two.setChecked(False)
@@ -813,49 +815,58 @@ class calibrationWindow(QMainWindow,Ui_calibration):
         self.radioButton_five.toggled.connect(lambda: self.leg_point(self.radioButton_five))
         self.radioButton_six.setChecked(False)
         self.radioButton_six.toggled.connect(lambda: self.leg_point(self.radioButton_six))
-        self.Button_Save.clicked.connect(self.save)
+
         self.Button_X1.clicked.connect(self.X1)
         self.Button_X2.clicked.connect(self.X2)
         self.Button_Y1.clicked.connect(self.Y1)
         self.Button_Y2.clicked.connect(self.Y2)
         self.Button_Z1.clicked.connect(self.Z1)
         self.Button_Z2.clicked.connect(self.Z2)
+
+        self.Button_Save.clicked.connect(self.save)
+
     def X1(self):
         self.get_point()
-        self.x +=1
+        self.x += 1
         command=cmd.CMD_CALIBRATION+'#'+self.leg+'#'+str(self.x)+'#'+str(self.y)+'#'+str(self.z)+'\n'
         self.client.send_data(command)
         self.set_point()
+
     def X2(self):
         self.get_point()
         self.x -= 1
         command=cmd.CMD_CALIBRATION+'#'+self.leg+'#'+str(self.x)+'#'+str(self.y)+'#'+str(self.z)+'\n'
         self.client.send_data(command)
         self.set_point()
+
     def Y1(self):
         self.get_point()
         self.y += 1
         command=cmd.CMD_CALIBRATION+'#'+self.leg+'#'+str(self.x)+'#'+str(self.y)+'#'+str(self.z)+'\n'
         self.client.send_data(command)
         self.set_point()
+
     def Y2(self):
         self.get_point()
         self.y -= 1
         command=cmd.CMD_CALIBRATION+'#'+self.leg+'#'+str(self.x)+'#'+str(self.y)+'#'+str(self.z)+'\n'
         self.client.send_data(command)
         self.set_point()
+
     def Z1(self):
         self.get_point()
         self.z += 1
         command=cmd.CMD_CALIBRATION+'#'+self.leg+'#'+str(self.x)+'#'+str(self.y)+'#'+str(self.z)+'\n'
         self.client.send_data(command)
         self.set_point()
+
     def Z2(self):
         self.get_point()
         self.z -= 1
         command=cmd.CMD_CALIBRATION+'#'+self.leg+'#'+str(self.x)+'#'+str(self.y)+'#'+str(self.z)+'\n'
         self.client.send_data(command)
         self.set_point()
+
     def set_point(self,data=None):
         if data==None:
             if self.leg== "one":
@@ -919,6 +930,7 @@ class calibrationWindow(QMainWindow,Ui_calibration):
             self.six_x.setText(str(data[5][0]))
             self.six_y.setText(str(data[5][1]))
             self.six_z.setText(str(data[5][2]))
+
     def get_point(self):
         if self.leg== "one":
             self.x = int(self.one_x.text())
@@ -944,6 +956,7 @@ class calibrationWindow(QMainWindow,Ui_calibration):
             self.x = int(self.six_x.text())
             self.y = int(self.six_y.text())
             self.z = int(self.six_z.text())
+
     def save(self):
         command=cmd.CMD_CALIBRATION+'#'+'save'+'\n'
         self.client.send_data(command)
@@ -964,12 +977,23 @@ class calibrationWindow(QMainWindow,Ui_calibration):
         self.point[3][1] = self.four_y.text()
         self.point[3][2] = self.four_z.text()
 
+        self.point[4][0] = self.five_x.text()
+        self.point[4][1] = self.five_y.text()
+        self.point[4][2] = self.five_z.text()
+
+        self.point[5][0] = self.six_x.text()
+        self.point[5][1] = self.six_y.text()
+        self.point[5][2] = self.six_z.text()
+
         self.Save_to_txt(self.point,'point')
-        reply = QMessageBox.information(self,                        
-                                        "Message",  
-                                        "Saved successfully",  
-                                        QMessageBox.Yes)
+
+        reply = QMessageBox.information(
+            self,
+            "Message",
+            "Saved successfully",
+            QMessageBox.Yes)
         #print(command)
+
     def Read_from_txt(self,filename):
         file1 = open(filename + ".txt", "r")
         list_row = file1.readlines()
@@ -1011,7 +1035,6 @@ class calibrationWindow(QMainWindow,Ui_calibration):
         elif leg.text() == "Six":
             if leg.isChecked() == True:
                 self.leg = "six"
-
 
 class ColorDialog(QtWidgets.QColorDialog):
     def __init__(self, parent=None):
