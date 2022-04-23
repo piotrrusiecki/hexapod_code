@@ -44,6 +44,43 @@ class MyWindow(QMainWindow,Ui_client):
         self.Button_Relax.clicked.connect(self.relax)
         self.Button_Buzzer.pressed.connect(self.buzzer)
         self.Button_Buzzer.released.connect(self.buzzer)
+        self.Button_Attack.pressed.connect(self.attack)
+        self.button_leg1_front_plus.pressed.connect(self.posture, 1)
+        self.button_leg1_front_minus.pressed.connect(self.posture, 2)
+        self.button_leg1_middle_plus.pressed.connect(self.posture, 3)
+        self.button_leg1_middle_minus.pressed.connect(self.posture, 4)
+        self.button_leg1_back_plus.pressed.connect(self.posture, 5)
+        self.button_leg1_back_minus.pressed.connect(self.posture, 6)
+        self.button_leg2_front_plus.pressed.connect(self.posture, 7)
+        self.button_leg2_front_minus.pressed.connect(self.posture, 8)
+        self.button_leg2_middle_plus.pressed.connect(self.posture, 9)
+        self.button_leg2_middle_minus.pressed.connect(self.posture, 10)
+        self.button_leg2_back_plus.pressed.connect(self.posture, 11)
+        self.button_leg2_back_minus.pressed.connect(self.posture, 12)
+        self.button_leg3_front_plus.pressed.connect(self.posture, 13)
+        self.button_leg3_front_minus.pressed.connect(self.posture, 14)
+        self.button_leg3_middle_plus.pressed.connect(self.posture, 15)
+        self.button_leg3_middle_minus.pressed.connect(self.posture, 16)
+        self.button_leg3_back_plus.pressed.connect(self.posture, 17)
+        self.button_leg3_back_minus.pressed.connect(self.posture, 18)
+        self.button_leg4_front_plus.pressed.connect(self.posture, 19)
+        self.button_leg4_front_minus.pressed.connect(self.posture, 20)
+        self.button_leg4_middle_plus.pressed.connect(self.posture, 21)
+        self.button_leg4_middle_minus.pressed.connect(self.posture, 22)
+        self.button_leg4_back_plus.pressed.connect(self.posture, 23)
+        self.button_leg4_back_minus.pressed.connect(self.posture, 24)
+        self.button_leg5_front_plus.pressed.connect(self.posture, 25)
+        self.button_leg5_front_minus.pressed.connect(self.posture, 26)
+        self.button_leg5_middle_plus.pressed.connect(self.posture, 27)
+        self.button_leg5_middle_minus.pressed.connect(self.posture, 28)
+        self.button_leg5_back_plus.pressed.connect(self.posture, 29)
+        self.button_leg5_back_minus.pressed.connect(self.posture, 30)
+        self.button_leg6_front_plus.pressed.connect(self.posture, 31)
+        self.button_leg6_front_minus.pressed.connect(self.posture, 32)
+        self.button_leg6_middle_plus.pressed.connect(self.posture, 33)
+        self.button_leg6_middle_minus.pressed.connect(self.posture, 34)
+        self.button_leg6_back_plus.pressed.connect(self.posture, 35)
+        self.button_leg6_back_minus.pressed.connect(self.posture, 36)
 
         #Slider
         self.slider_head.setMinimum(50)
@@ -421,6 +458,43 @@ class MyWindow(QMainWindow,Ui_client):
             self.client.send_data(command)
         except Exception as e:
             print(e)
+
+   #ATTACK
+    def attack(self):
+        try:
+            if self.Button_Attack.text() == 'Attack':
+                self.Button_Attack.setText('Attacking')
+                command=cmd.CMD_ATTACK+'#1'+'\n'
+                self.client.send_data(command)
+            else:
+                self.Button_Attack.setText('Attack')
+                command=cmd.CMD_ATTACK+'#0'+'\n'
+            print (command)
+            self.client.send_data(command)
+        except Exception as e:
+            print(e)
+    def posture(self, type):
+        try:
+            if type == 1:
+                command=cmd.CMD_ATTACK+'#13'+'\n''#1'+'\n'
+            elif type == 2:
+                command=cmd.CMD_ATTACK+'#13'+'\n''#0'+'\n'
+            elif type == 3:
+                command=cmd.CMD_ATTACK+'#14'+'\n''#1'+'\n'
+            elif type == 4:
+                command=cmd.CMD_ATTACK+'#14'+'\n''#0'+'\n'
+            elif type == 5:
+                command=cmd.CMD_ATTACK+'#15'+'\n''#1'+'\n'
+            elif type == 6:
+                command=cmd.CMD_ATTACK+'#15'+'\n''#0'+'\n'
+
+
+
+            print (command)
+            self.client.send_data(command)
+        except Exception as e:
+            print(e)
+
     def attitude(self):
         r = self.map((self.drawpoint[0][0]-1890), -150, 150, -15, 15)
         p = self.map((1050-self.drawpoint[0][1]), -150, 150, -15, 15)
@@ -624,6 +698,9 @@ class MyWindow(QMainWindow,Ui_client):
             self.client.send_data(command)
             self.Button_Buzzer.setText('Buzzer')
             #print (command)
+
+ 
+
     #BALANCE
     def imu(self):
         if self.Button_IMU.text()=='Balance':
