@@ -45,42 +45,43 @@ class MyWindow(QMainWindow,Ui_client):
         self.Button_Buzzer.pressed.connect(self.buzzer)
         self.Button_Buzzer.released.connect(self.buzzer)
         self.Button_Attack.pressed.connect(self.attack)
-        self.button_leg1_front_plus.pressed.connect(self.posture, 1)
-        self.button_leg1_front_minus.pressed.connect(self.posture, 2)
-        self.button_leg1_middle_plus.pressed.connect(self.posture, 3)
-        self.button_leg1_middle_minus.pressed.connect(self.posture, 4)
-        self.button_leg1_back_plus.pressed.connect(self.posture, 5)
-        self.button_leg1_back_minus.pressed.connect(self.posture, 6)
-        self.button_leg2_front_plus.pressed.connect(self.posture, 7)
-        self.button_leg2_front_minus.pressed.connect(self.posture, 8)
-        self.button_leg2_middle_plus.pressed.connect(self.posture, 9)
-        self.button_leg2_middle_minus.pressed.connect(self.posture, 10)
-        self.button_leg2_back_plus.pressed.connect(self.posture, 11)
-        self.button_leg2_back_minus.pressed.connect(self.posture, 12)
-        self.button_leg3_front_plus.pressed.connect(self.posture, 13)
-        self.button_leg3_front_minus.pressed.connect(self.posture, 14)
-        self.button_leg3_middle_plus.pressed.connect(self.posture, 15)
-        self.button_leg3_middle_minus.pressed.connect(self.posture, 16)
-        self.button_leg3_back_plus.pressed.connect(self.posture, 17)
-        self.button_leg3_back_minus.pressed.connect(self.posture, 18)
-        self.button_leg4_front_plus.pressed.connect(self.posture, 19)
-        self.button_leg4_front_minus.pressed.connect(self.posture, 20)
-        self.button_leg4_middle_plus.pressed.connect(self.posture, 21)
-        self.button_leg4_middle_minus.pressed.connect(self.posture, 22)
-        self.button_leg4_back_plus.pressed.connect(self.posture, 23)
-        self.button_leg4_back_minus.pressed.connect(self.posture, 24)
-        self.button_leg5_front_plus.pressed.connect(self.posture, 25)
-        self.button_leg5_front_minus.pressed.connect(self.posture, 26)
-        self.button_leg5_middle_plus.pressed.connect(self.posture, 27)
-        self.button_leg5_middle_minus.pressed.connect(self.posture, 28)
-        self.button_leg5_back_plus.pressed.connect(self.posture, 29)
-        self.button_leg5_back_minus.pressed.connect(self.posture, 30)
-        self.button_leg6_front_plus.pressed.connect(self.posture, 31)
-        self.button_leg6_front_minus.pressed.connect(self.posture, 32)
-        self.button_leg6_middle_plus.pressed.connect(self.posture, 33)
-        self.button_leg6_middle_minus.pressed.connect(self.posture, 34)
-        self.button_leg6_back_plus.pressed.connect(self.posture, 35)
-        self.button_leg6_back_minus.pressed.connect(self.posture, 36)
+        self.Button_Refresh.pressed.connect(self.refresh)
+        self.button_leg1_front_plus.clicked.connect(lambda: self.posture(13, 1))
+        self.button_leg1_front_minus.pressed.connect(lambda: self.posture(13, 0))
+        self.button_leg1_middle_plus.pressed.connect(lambda: self.posture(14, 1))
+        self.button_leg1_middle_minus.pressed.connect(lambda: self.posture(14, 0))
+        self.button_leg1_back_plus.pressed.connect(lambda: self.posture(15, 1))
+        self.button_leg1_back_minus.pressed.connect(lambda: self.posture(15, 0))
+        self.button_leg2_front_plus.pressed.connect(lambda: self.posture(10, 1))
+        self.button_leg2_front_minus.pressed.connect(lambda: self.posture(10, 0))
+        self.button_leg2_middle_plus.pressed.connect(lambda: self.posture(11, 1))
+        self.button_leg2_middle_minus.pressed.connect(lambda: self.posture(11, 0))
+        self.button_leg2_back_plus.pressed.connect(lambda: self.posture(12, 1))
+        self.button_leg2_back_minus.pressed.connect(lambda: self.posture(12, 0))
+        self.button_leg3_front_plus.pressed.connect(lambda: self.posture(31, 1))
+        self.button_leg3_front_minus.pressed.connect(lambda: self.posture(31, 0))
+        self.button_leg3_middle_plus.pressed.connect(lambda: self.posture(8, 1))
+        self.button_leg3_middle_minus.pressed.connect(lambda: self.posture(8, 0))
+        self.button_leg3_back_plus.pressed.connect(lambda: self.posture(9, 1))
+        self.button_leg3_back_minus.pressed.connect(lambda: self.posture(9, 1))
+        self.button_leg4_front_plus.pressed.connect(lambda: self.posture(27, 1))
+        self.button_leg4_front_minus.pressed.connect(lambda: self.posture(27, 0))
+        self.button_leg4_middle_plus.pressed.connect(lambda: self.posture(23, 1))
+        self.button_leg4_middle_minus.pressed.connect(lambda: self.posture(23, 0))
+        self.button_leg4_back_plus.pressed.connect(lambda: self.posture(22, 1))
+        self.button_leg4_back_minus.pressed.connect(lambda: self.posture(22, 0))
+        self.button_leg5_front_plus.pressed.connect(lambda: self.posture(21, 1))
+        self.button_leg5_front_minus.pressed.connect(lambda: self.posture(21, 0))
+        self.button_leg5_middle_plus.pressed.connect(lambda: self.posture(20, 1))
+        self.button_leg5_middle_minus.pressed.connect(lambda: self.posture(20, 0))
+        self.button_leg5_back_plus.pressed.connect(lambda: self.posture(19, 1))
+        self.button_leg5_back_minus.pressed.connect(lambda: self.posture(19, 0))
+        self.button_leg6_front_plus.pressed.connect(lambda: self.posture(18, 1))
+        self.button_leg6_front_minus.pressed.connect(lambda: self.posture(18, 0))
+        self.button_leg6_middle_plus.pressed.connect(lambda: self.posture(17, 1))
+        self.button_leg6_middle_minus.pressed.connect(lambda: self.posture(17, 0))
+        self.button_leg6_back_plus.pressed.connect(lambda: self.posture(16, 1))
+        self.button_leg6_back_minus.pressed.connect(lambda: self.posture(16, 0))
 
         #Slider
         self.slider_head.setMinimum(50)
@@ -94,6 +95,12 @@ class MyWindow(QMainWindow,Ui_client):
         self.slider_head_1.setSingleStep(1)
         self.slider_head_1.setValue(90)
         self.slider_head_1.valueChanged.connect(self.headLeftAndRight)
+
+        self.slider_step.setMinimum(1)
+        self.slider_step.setMaximum(15)
+        self.slider_step.setSingleStep(1)
+        self.slider_step.setValue(5)
+        self.slider_step.valueChanged.connect(self.step)
 
         self.slider_speed.setMinimum(2)
         self.slider_speed.setMaximum(10)
@@ -141,6 +148,7 @@ class MyWindow(QMainWindow,Ui_client):
         self.drawpoint = [[1890, 1050], [1410, 1050]]
         self.action_flag = 1
         self.gait_flag = 1
+        self.step_flag = self.slider_step.value()
 
     # keyboard
     def keyPressEvent(self, event):
@@ -473,22 +481,19 @@ class MyWindow(QMainWindow,Ui_client):
             self.client.send_data(command)
         except Exception as e:
             print(e)
-    def posture(self, type):
+
+    def refresh(self):
         try:
-            if type == 1:
-                command=cmd.CMD_ATTACK+'#13'+'\n''#1'+'\n'
-            elif type == 2:
-                command=cmd.CMD_ATTACK+'#13'+'\n''#0'+'\n'
-            elif type == 3:
-                command=cmd.CMD_ATTACK+'#14'+'\n''#1'+'\n'
-            elif type == 4:
-                command=cmd.CMD_ATTACK+'#14'+'\n''#0'+'\n'
-            elif type == 5:
-                command=cmd.CMD_ATTACK+'#15'+'\n''#1'+'\n'
-            elif type == 6:
-                command=cmd.CMD_ATTACK+'#15'+'\n''#0'+'\n'
+            command=cmd.CMD_ANGLES+'\n'
+            print (command)
+            self.client.send_data(command)
+        except Exception as e:
+            print(e)    
 
-
+    def posture(self, servo, action):
+        try:
+            if type(servo) == int: command=cmd.CMD_ATTACK+'#'+str(servo)+'#'+str(action)+'\n'
+            else: 'Non-existent servo. Add cheese'
 
             print (command)
             self.client.send_data(command)
@@ -595,6 +600,9 @@ class MyWindow(QMainWindow,Ui_client):
 
                     except Exception as e:
                         print(e)
+                elif data[0]==cmd.CMD_ANGLES:
+                    print("Received angle data.")
+                    print(str(data[1]))
 
     #CONNECT
     def connect(self):
@@ -662,6 +670,9 @@ class MyWindow(QMainWindow,Ui_client):
     def speed(self):
         self.client.move_speed=str(self.slider_speed.value())
         self.label_speed.setText(str(self.slider_speed.value()))
+    def step(self):
+        self.step_flag = self.slider_step.value()
+        self.label_step_value.setText(str(self.slider_step.value()))
     def setZ(self):
         self.label_height_value.setText(str(self.slider_height.value()))
         self.position()
@@ -699,8 +710,6 @@ class MyWindow(QMainWindow,Ui_client):
             self.Button_Buzzer.setText('Buzzer')
             #print (command)
 
- 
-
     #BALANCE
     def imu(self):
         if self.Button_IMU.text()=='Balance':
@@ -722,7 +731,7 @@ class MyWindow(QMainWindow,Ui_client):
         else:
             self.timer_sonic.stop()
             self.Button_Sonic.setText('Sonar')
-            #
+
     def getSonicData(self):
         command=cmd.CMD_SONIC+'\n'
         self.client.send_data(command)

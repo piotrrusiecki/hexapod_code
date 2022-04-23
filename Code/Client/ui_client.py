@@ -352,6 +352,12 @@ class Ui_client(object):
         self.Button_Dead.setFont(font)
         self.Button_Dead.setObjectName("Button_Dead")
 
+        #Refresh button
+        self.Button_Refresh = QtWidgets.QPushButton(client)
+        self.Button_Refresh.setGeometry(QtCore.QRect(1590, 630, 120, 30))
+        self.Button_Refresh.setFont(font)
+        self.Button_Refresh.setObjectName("Button_Refresh")
+
         # Detailed control
         # Leg title labels
         self.label_leg1_title = QtWidgets.QLabel(client)
@@ -782,6 +788,7 @@ class Ui_client(object):
         self.progress_Power2.raise_()
         self.Button_Attack.raise_()
         self.Button_Dead.raise_()
+        self.Button_Refresh.raise_()
         self.label_leg1_title.raise_()
         self.label_leg2_title.raise_()
         self.label_leg3_title.raise_()
@@ -889,6 +896,7 @@ class Ui_client(object):
         self.label_RasPi.setText(_translate("client", "RasPi"))
         self.Button_Attack.setText(_translate("client", "Attack"))
         self.Button_Dead.setText(_translate("client", "Dead"))
+        self.Button_Refresh.setText(_translate("client", "Refresh"))
         self.label_leg1_title.setText(_translate("client", "Leg 1"))
         self.label_leg2_title.setText(_translate("client", "Leg 2"))
         self.label_leg3_title.setText(_translate("client", "Leg 3"))

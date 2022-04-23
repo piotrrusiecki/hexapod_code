@@ -465,7 +465,10 @@ class Control:
                     self.setLegAngle()
                     time.sleep(delay) 
                     aa+=1
-                  
+    
+    def getAngles(self):
+        print("Resturning test value")
+        return "TEST"
                              
 if __name__=='__main__':
     pass

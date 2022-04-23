@@ -168,6 +168,9 @@ class Server:
                 elif cmd.CMD_SONIC in data:
                     command=cmd.CMD_SONIC+"#"+str(self.sonic.getDistance())+"\n"
                     self.send_data(self.connection1,command)
+                elif cmd.CMD_ANGLES in data:
+                    command=cmd.CMD_ANGLES+"#"+str(self.control.getAngles())+"\n"
+                    self.send_data(self.connection1,command)
                 elif cmd.CMD_HEAD in data:
                     if len(data)==3:
                         self.servo.setServoAngle(int(data[1]),int(data[2]))
