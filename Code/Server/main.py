@@ -31,9 +31,7 @@ class MyWindow(QMainWindow,Ui_server):
             if self.user_ui:
                 self.pushButton_On_And_Off.setText('Off')
                 self.states.setText('On')
-            
-        
-        
+    
     def parseOpt(self):
         self.opts,self.args = getopt.getopt(sys.argv[1:],"tn")
         for o,a in self.opts:
@@ -64,6 +62,7 @@ class MyWindow(QMainWindow,Ui_server):
                 print(e)
             self.server.turn_off_server()
             print("close")
+
     def closeEvent(self,event):
         try:
             stop_thread(self.video)

@@ -236,6 +236,35 @@ class Control:
                     elif self.order[1]=="save":
                         self.saveToTxt(self.calibration_leg_point,'point')
                 self.order=['','','','','',''] 
+            elif cmd.CMD_ATTACK in self.order:
+                if self.order[1] =="1":
+                    print("Attacking!")
+
+                    #leg2
+                    # self.servo.setServoAngle(12,30)
+                    # self.servo.setServoAngle(11,0)
+                    # self.servo.setServoAngle(10,90)
+
+                    #leg5
+                    # self.servo.setServoAngle(19,30)
+                    # self.servo.setServoAngle(20,0)
+                    # self.servo.setServoAngle(21,90)
+
+                    #leg1
+                    # self.servo.setServoAngle(15,30)
+                    # self.servo.setServoAngle(14,)
+                    self.servo.setServoAngle(13,0)
+
+                    #leg6
+                    # self.servo.setServoAngle(16,30)
+                    # self.servo.setServoAngle(17,)
+                    self.servo.setServoAngle(18,180)
+
+
+                else:
+                    self.setLegAngle()
+                    self.order=['','','','','',''] 
+
     def relax(self,flag):
         if flag:
             self.servo.relax()
