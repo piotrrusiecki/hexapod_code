@@ -111,7 +111,7 @@ class Control:
                 self.angle[i+3][2]=self.restriction(180-(self.angle[i+3][2]+self.calibration_angle[i+3][2]),0,180)
              
             #leg1
-            self.servo.setServoAngle(15,self.angle[0][0])
+            self.servo.setServoAngle(15,self.angle[0][0]) 
             self.servo.setServoAngle(14,self.angle[0][1])
             self.servo.setServoAngle(13,self.angle[0][2])
             
@@ -467,8 +467,20 @@ class Control:
                     aa+=1
     
     def getAngles(self):
+        coordinates = ""
+
+        for leg in self.angle:
+            for servo in leg:
+                coordinates = coordinates + str(servo) + str('#')
+
+        coordinates = coordinates[:-1]
         print("Resturning test value")
-        return "TEST"
+        print(str(coordinates))
+
+        return coordinates
+
+    def setAngles(self):
+        pass
                              
 if __name__=='__main__':
     pass

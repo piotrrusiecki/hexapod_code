@@ -601,8 +601,26 @@ class MyWindow(QMainWindow,Ui_client):
                     except Exception as e:
                         print(e)
                 elif data[0]==cmd.CMD_ANGLES:
+                    self.label_leg1_back_value.setText(data[1])
+                    self.label_leg1_middle_value.setText(data[2])
+                    self.label_leg1_front_value.setText(data[3])
+                    self.label_leg2_back_value.setText(data[4])
+                    self.label_leg2_middle_value.setText(data[5])
+                    self.label_leg2_front_value.setText(data[6])
+                    self.label_leg3_back_value.setText(data[7])
+                    self.label_leg3_middle_value.setText(data[8])
+                    self.label_leg3_front_value.setText(data[9])
+                    self.label_leg6_back_value.setText(data[10])
+                    self.label_leg6_middle_value.setText(data[11])
+                    self.label_leg6_front_value.setText(data[12])
+                    self.label_leg5_back_value.setText(data[13])
+                    self.label_leg5_middle_value.setText(data[14])
+                    self.label_leg5_front_value.setText(data[15])
+                    self.label_leg4_back_value.setText(data[16])
+                    self.label_leg4_middle_value.setText(data[17])
+                    self.label_leg4_front_value.setText(data[18])
+
                     print("Received angle data.")
-                    print(str(data[1]))
 
     #CONNECT
     def connect(self):
