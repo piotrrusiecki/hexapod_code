@@ -14,6 +14,8 @@ class COMMAND:
     CMD_CAMERA = "CMD_CAMERA"
     CMD_SERVOPOWER = "CMD_SERVOPOWER"
     CMD_ATTACK = "CMD_ATTACK"
-    CMD_ANGLES = "CMD_ANGLES"
+    CMD_GET_ANGLES = "CMD_GET_ANGLES"
+    CMD_SET_ANGLES = "CMD_SET_ANGLES"
+
     def __init__(self):
         pass

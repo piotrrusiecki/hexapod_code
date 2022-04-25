@@ -45,43 +45,44 @@ class MyWindow(QMainWindow,Ui_client):
         self.Button_Buzzer.pressed.connect(self.buzzer)
         self.Button_Buzzer.released.connect(self.buzzer)
         self.Button_Attack.pressed.connect(self.attack)
-        self.Button_Refresh.pressed.connect(self.refresh)
-        self.button_leg1_front_plus.clicked.connect(lambda: self.posture(13, 1))
-        self.button_leg1_front_minus.pressed.connect(lambda: self.posture(13, 0))
-        self.button_leg1_middle_plus.pressed.connect(lambda: self.posture(14, 1))
-        self.button_leg1_middle_minus.pressed.connect(lambda: self.posture(14, 0))
-        self.button_leg1_back_plus.pressed.connect(lambda: self.posture(15, 1))
-        self.button_leg1_back_minus.pressed.connect(lambda: self.posture(15, 0))
-        self.button_leg2_front_plus.pressed.connect(lambda: self.posture(10, 1))
-        self.button_leg2_front_minus.pressed.connect(lambda: self.posture(10, 0))
-        self.button_leg2_middle_plus.pressed.connect(lambda: self.posture(11, 1))
-        self.button_leg2_middle_minus.pressed.connect(lambda: self.posture(11, 0))
-        self.button_leg2_back_plus.pressed.connect(lambda: self.posture(12, 1))
-        self.button_leg2_back_minus.pressed.connect(lambda: self.posture(12, 0))
-        self.button_leg3_front_plus.pressed.connect(lambda: self.posture(31, 1))
-        self.button_leg3_front_minus.pressed.connect(lambda: self.posture(31, 0))
-        self.button_leg3_middle_plus.pressed.connect(lambda: self.posture(8, 1))
-        self.button_leg3_middle_minus.pressed.connect(lambda: self.posture(8, 0))
-        self.button_leg3_back_plus.pressed.connect(lambda: self.posture(9, 1))
-        self.button_leg3_back_minus.pressed.connect(lambda: self.posture(9, 1))
-        self.button_leg4_front_plus.pressed.connect(lambda: self.posture(27, 1))
-        self.button_leg4_front_minus.pressed.connect(lambda: self.posture(27, 0))
-        self.button_leg4_middle_plus.pressed.connect(lambda: self.posture(23, 1))
-        self.button_leg4_middle_minus.pressed.connect(lambda: self.posture(23, 0))
-        self.button_leg4_back_plus.pressed.connect(lambda: self.posture(22, 1))
-        self.button_leg4_back_minus.pressed.connect(lambda: self.posture(22, 0))
-        self.button_leg5_front_plus.pressed.connect(lambda: self.posture(21, 1))
-        self.button_leg5_front_minus.pressed.connect(lambda: self.posture(21, 0))
-        self.button_leg5_middle_plus.pressed.connect(lambda: self.posture(20, 1))
-        self.button_leg5_middle_minus.pressed.connect(lambda: self.posture(20, 0))
-        self.button_leg5_back_plus.pressed.connect(lambda: self.posture(19, 1))
-        self.button_leg5_back_minus.pressed.connect(lambda: self.posture(19, 0))
-        self.button_leg6_front_plus.pressed.connect(lambda: self.posture(18, 1))
-        self.button_leg6_front_minus.pressed.connect(lambda: self.posture(18, 0))
-        self.button_leg6_middle_plus.pressed.connect(lambda: self.posture(17, 1))
-        self.button_leg6_middle_minus.pressed.connect(lambda: self.posture(17, 0))
-        self.button_leg6_back_plus.pressed.connect(lambda: self.posture(16, 1))
-        self.button_leg6_back_minus.pressed.connect(lambda: self.posture(16, 0))
+        self.Button_Update.pressed.connect(self.set_angles)
+        self.Button_Refresh.pressed.connect(self.get_angles)
+        self.button_leg1_front_plus.clicked.connect(lambda: self.angles(13, 1))
+        self.button_leg1_front_minus.pressed.connect(lambda: self.angles(13, 0))
+        self.button_leg1_middle_plus.pressed.connect(lambda: self.angles(14, 1))
+        self.button_leg1_middle_minus.pressed.connect(lambda: self.angles(14, 0))
+        self.button_leg1_back_plus.pressed.connect(lambda: self.angles(15, 1))
+        self.button_leg1_back_minus.pressed.connect(lambda: self.angles(15, 0))
+        self.button_leg2_front_plus.pressed.connect(lambda: self.angles(10, 1))
+        self.button_leg2_front_minus.pressed.connect(lambda: self.angles(10, 0))
+        self.button_leg2_middle_plus.pressed.connect(lambda: self.angles(11, 1))
+        self.button_leg2_middle_minus.pressed.connect(lambda: self.angles(11, 0))
+        self.button_leg2_back_plus.pressed.connect(lambda: self.angles(12, 1))
+        self.button_leg2_back_minus.pressed.connect(lambda: self.angles(12, 0))
+        self.button_leg3_front_plus.pressed.connect(lambda: self.angles(31, 1))
+        self.button_leg3_front_minus.pressed.connect(lambda: self.angles(31, 0))
+        self.button_leg3_middle_plus.pressed.connect(lambda: self.angles(8, 1))
+        self.button_leg3_middle_minus.pressed.connect(lambda: self.angles(8, 0))
+        self.button_leg3_back_plus.pressed.connect(lambda: self.angles(9, 1))
+        self.button_leg3_back_minus.pressed.connect(lambda: self.angles(9, 1))
+        self.button_leg4_front_plus.pressed.connect(lambda: self.angles(27, 1))
+        self.button_leg4_front_minus.pressed.connect(lambda: self.angles(27, 0))
+        self.button_leg4_middle_plus.pressed.connect(lambda: self.angles(23, 1))
+        self.button_leg4_middle_minus.pressed.connect(lambda: self.angles(23, 0))
+        self.button_leg4_back_plus.pressed.connect(lambda: self.angles(22, 1))
+        self.button_leg4_back_minus.pressed.connect(lambda: self.angles(22, 0))
+        self.button_leg5_front_plus.pressed.connect(lambda: self.angles(21, 1))
+        self.button_leg5_front_minus.pressed.connect(lambda: self.angles(21, 0))
+        self.button_leg5_middle_plus.pressed.connect(lambda: self.angles(20, 1))
+        self.button_leg5_middle_minus.pressed.connect(lambda: self.angles(20, 0))
+        self.button_leg5_back_plus.pressed.connect(lambda: self.angles(19, 1))
+        self.button_leg5_back_minus.pressed.connect(lambda: self.angles(19, 0))
+        self.button_leg6_front_plus.pressed.connect(lambda: self.angles(18, 1))
+        self.button_leg6_front_minus.pressed.connect(lambda: self.angles(18, 0))
+        self.button_leg6_middle_plus.pressed.connect(lambda: self.angles(17, 1))
+        self.button_leg6_middle_minus.pressed.connect(lambda: self.angles(17, 0))
+        self.button_leg6_back_plus.pressed.connect(lambda: self.angles(16, 1))
+        self.button_leg6_back_minus.pressed.connect(lambda: self.angles(16, 0))
 
         #Slider
         self.slider_head.setMinimum(50)
@@ -482,15 +483,23 @@ class MyWindow(QMainWindow,Ui_client):
         except Exception as e:
             print(e)
 
-    def refresh(self):
+    def get_angles(self):
         try:
-            command=cmd.CMD_ANGLES+'\n'
+            command=cmd.CMD_GET_ANGLES+'\n'
+            print (command)
+            self.client.send_data(command)
+        except Exception as e:
+            print(e)
+
+    def set_angles(self):
+        try:
+            command=cmd.CMD_SET_ANGLES+'\n'
             print (command)
             self.client.send_data(command)
         except Exception as e:
             print(e)    
 
-    def posture(self, servo, action):
+    def attack(self, servo, action):
         try:
             if type(servo) == int: command=cmd.CMD_ATTACK+'#'+str(servo)+'#'+str(action)+'\n'
             else: 'Non-existent servo. Add cheese'
@@ -600,7 +609,7 @@ class MyWindow(QMainWindow,Ui_client):
 
                     except Exception as e:
                         print(e)
-                elif data[0]==cmd.CMD_ANGLES:
+                elif data[0]==cmd.CMD_GET_ANGLES:
                     self.label_leg1_back_value.setText(data[1])
                     self.label_leg1_middle_value.setText(data[2])
                     self.label_leg1_front_value.setText(data[3])
@@ -621,6 +630,194 @@ class MyWindow(QMainWindow,Ui_client):
                     self.label_leg4_front_value.setText(data[18])
 
                     print("Received angle data.")
+
+    def angles(self, servo, action):
+        step = int(self.label_step_value.text())
+        if action == 1:
+            if servo == 13:
+                if "S:" in self.label_leg1_front_value.text():
+                    self.label_leg1_front_value.setText(str(116 + step))
+                else:
+                    self.label_leg1_front_value.setText(str(int(self.label_leg1_front_value.text()) + step))
+            if servo == 14:
+                if "S:" in self.label_leg1_middle_value.text():
+                    self.label_leg1_middle_value.setText(str(157 + step))
+                else:
+                    self.label_leg1_middle_value.setText(str(int(self.label_leg1_middle_value.text()) + step))
+            if servo == 15: 
+                if "S:" in self.label_leg1_back_value.text():
+                    self.label_leg1_back_value.setText(str(90 + step))
+                else:
+                    self.label_leg1_back_value.setText(str(int(self.label_leg1_back_value.text()) + step))
+            if servo == 10: 
+                if "S:" in self.label_leg2_front_value.text():
+                    self.label_leg2_front_value.setText(str(116 + step))
+                else:
+                    self.label_leg2_front_value.setText(str(int(self.label_leg2_front_value.text()) + step))
+            if servo == 11: 
+                if "S:" in self.label_leg2_middle_value.text():
+                    self.label_leg2_middle_value.setText(str(157 + step))
+                else:
+                    self.label_leg2_middle_value.setText(str(int(self.label_leg2_middle_value.text()) + step))
+            if servo == 12: 
+                if "S:" in self.label_leg2_back_value.text():
+                    self.label_leg2_back_value.setText(str(90 + step))
+                else:
+                    self.label_leg2_back_value.setText(str(int(self.label_leg2_back_value.text()) + step))
+            if servo == 31: 
+                if "S:" in self.label_leg3_front_value.text():
+                    self.label_leg3_front_value.setText(str(116 + step))
+                else:
+                    self.label_leg3_front_value.setText(str(int(self.label_leg3_front_value.text()) + step))
+            if servo == 8: 
+                if "S:" in self.label_leg3_middle_value.text():
+                    self.label_leg3_middle_value.setText(str(157 + step))
+                else:
+                    self.label_leg3_middle_value.setText(str(int(self.label_leg3_middle_value.text()) + step))
+            if servo == 9:
+                if "S:" in self.label_leg3_back_value.text():
+                    self.label_leg3_back_value.setText(str(90 + step))
+                else:
+                    self.label_leg3_back_value.setText(str(int(self.label_leg3_back_value.text()) + step))
+            if servo == 27:
+                if "S:" in self.label_leg4_front_value.text():
+                    self.label_leg4_front_value.setText(str(64 + step))
+                else:
+                    self.label_leg4_front_value.setText(str(int(self.label_leg4_front_value.text()) + step))
+            if servo == 23:
+                if "S:" in self.label_leg4_middle_value.text():
+                    self.label_leg4_middle_value.setText(str(23 + step))
+                else:
+                    self.label_leg4_middle_value.setText(str(int(self.label_leg4_middle_value.text()) + step))
+            if servo == 22:
+                if "S:" in self.label_leg4_back_value.text():
+                    self.label_leg4_back_value.setText(str(90 + step))
+                else:
+                    self.label_leg4_back_value.setText(str(int(self.label_leg4_back_value.text()) + step))
+            if servo == 21:
+                if "S:" in self.label_leg5_front_value.text():
+                    self.label_leg5_front_value.setText(str(64 + step))
+                else:
+                    self.label_leg5_front_value.setText(str(int(self.label_leg5_front_value.text()) + step))
+            if servo == 20:
+                if "S:" in self.label_leg5_middle_value.text():
+                    self.label_leg5_middle_value.setText(str(23 + step))
+                else:
+                    self.label_leg5_middle_value.setText(str(int(self.label_leg5_middle_value.text()) + step))
+            if servo == 19:
+                if "S:" in self.label_leg5_back_value.text():
+                    self.label_leg5_back_value.setText(str(90 + step))
+                else:
+                    self.label_leg5_back_value.setText(str(int(self.label_leg5_back_value.text()) + step))
+            if servo == 18:
+                if "S:" in self.label_leg6_front_value.text():
+                    self.label_leg6_front_value.setText(str(64 + step))
+                else:
+                    self.label_leg6_front_value.setText(str(int(self.label_leg6_front_value.text()) + step))
+            if servo == 17:
+                if "S:" in self.label_leg6_middle_value.text():
+                    self.label_leg6_middle_value.setText(str(23 + step))
+                else:
+                    self.label_leg6_middle_value.setText(str(int(self.label_leg6_middle_value.text()) + step))
+            if servo == 16:
+                if "S:" in self.label_leg6_back_value.text():
+                    self.label_leg6_back_value.setText(str(90 + step))
+                else:
+                    self.label_leg6_back_value.setText(str(int(self.label_leg6_back_value.text()) + step))
+        elif action == 0:
+            if servo == 13:
+                if "S:" in self.label_leg1_front_value.text():
+                    self.label_leg1_front_value.setText(str(116 - step))
+                else:
+                    self.label_leg1_front_value.setText(str(int(self.label_leg1_front_value.text()) - step))
+            if servo == 14:
+                if "S:" in self.label_leg1_middle_value.text():
+                    self.label_leg1_middle_value.setText(str(157 - step))
+                else:
+                    self.label_leg1_middle_value.setText(str(int(self.label_leg1_middle_value.text()) - step))
+            if servo == 15: 
+                if "S:" in self.label_leg1_back_value.text():
+                    self.label_leg1_back_value.setText(str(90 - step))
+                else:
+                    self.label_leg1_back_value.setText(str(int(self.label_leg1_back_value.text()) - step))
+            if servo == 10: 
+                if "S:" in self.label_leg2_front_value.text():
+                    self.label_leg2_front_value.setText(str(116 - step))
+                else:
+                    self.label_leg2_front_value.setText(str(int(self.label_leg2_front_value.text()) - step))
+            if servo == 11: 
+                if "S:" in self.label_leg2_middle_value.text():
+                    self.label_leg2_middle_value.setText(str(157 - step))
+                else:
+                    self.label_leg2_middle_value.setText(str(int(self.label_leg2_middle_value.text()) - step))
+            if servo == 12: 
+                if "S:" in self.label_leg2_back_value.text():
+                    self.label_leg2_back_value.setText(str(90 - step))
+                else:
+                    self.label_leg2_back_value.setText(str(int(self.label_leg2_back_value.text()) - step))
+            if servo == 31: 
+                if "S:" in self.label_leg3_front_value.text():
+                    self.label_leg3_front_value.setText(str(116 - step))
+                else:
+                    self.label_leg3_front_value.setText(str(int(self.label_leg3_front_value.text()) - step))
+            if servo == 8: 
+                if "S:" in self.label_leg3_middle_value.text():
+                    self.label_leg3_middle_value.setText(str(157 - step))
+                else:
+                    self.label_leg3_middle_value.setText(str(int(self.label_leg3_middle_value.text()) - step))
+            if servo == 9:
+                if "S:" in self.label_leg3_back_value.text():
+                    self.label_leg3_back_value.setText(str(90 - step))
+                else:
+                    self.label_leg3_back_value.setText(str(int(self.label_leg3_back_value.text()) - step))
+            if servo == 27:
+                if "S:" in self.label_leg4_front_value.text():
+                    self.label_leg4_front_value.setText(str(64 - step))
+                else:
+                    self.label_leg4_front_value.setText(str(int(self.label_leg4_front_value.text()) - step))
+            if servo == 23:
+                if "S:" in self.label_leg4_middle_value.text():
+                    self.label_leg4_middle_value.setText(str(23 - step))
+                else:
+                    self.label_leg4_middle_value.setText(str(int(self.label_leg4_middle_value.text()) - step))
+            if servo == 22:
+                if "S:" in self.label_leg4_back_value.text():
+                    self.label_leg4_back_value.setText(str(90 - step))
+                else:
+                    self.label_leg4_back_value.setText(str(int(self.label_leg4_back_value.text()) - step))
+            if servo == 21:
+                if "S:" in self.label_leg5_front_value.text():
+                    self.label_leg5_front_value.setText(str(64 - step))
+                else:
+                    self.label_leg5_front_value.setText(str(int(self.label_leg5_front_value.text()) - step))
+            if servo == 20:
+                if "S:" in self.label_leg5_middle_value.text():
+                    self.label_leg5_middle_value.setText(str(23 - step))
+                else:
+                    self.label_leg5_middle_value.setText(str(int(self.label_leg5_middle_value.text()) - step))
+            if servo == 19:
+                if "S:" in self.label_leg5_back_value.text():
+                    self.label_leg5_back_value.setText(str(90 - step))
+                else:
+                    self.label_leg5_back_value.setText(str(int(self.label_leg5_back_value.text()) - step))
+            if servo == 18:
+                if "S:" in self.label_leg6_front_value.text():
+                    self.label_leg6_front_value.setText(str(64 - step))
+                else:
+                    self.label_leg6_front_value.setText(str(int(self.label_leg6_front_value.text()) - step))
+            if servo == 17:
+                if "S:" in self.label_leg6_middle_value.text():
+                    self.label_leg6_middle_value.setText(str(23 - step))
+                else:
+                    self.label_leg6_middle_value.setText(str(int(self.label_leg6_middle_value.text()) - step))
+            if servo == 16:
+                if "S:" in self.label_leg6_back_value.text():
+                    self.label_leg6_back_value.setText(str(90 - step))
+                else:
+                    self.label_leg6_back_value.setText(str(int(self.label_leg6_back_value.text()) - step))
+
+        print(step)
+
 
     #CONNECT
     def connect(self):

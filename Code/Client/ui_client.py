@@ -352,6 +352,12 @@ class Ui_client(object):
         self.Button_Dead.setFont(font)
         self.Button_Dead.setObjectName("Button_Dead")
 
+        #Posture button
+        self.Button_Update = QtWidgets.QPushButton(client)
+        self.Button_Update.setGeometry(QtCore.QRect(1590, 600, 120, 30))
+        self.Button_Update.setFont(font)
+        self.Button_Update.setObjectName("Button_Update")
+        
         #Refresh button
         self.Button_Refresh = QtWidgets.QPushButton(client)
         self.Button_Refresh.setGeometry(QtCore.QRect(1590, 630, 120, 30))
@@ -686,12 +692,12 @@ class Ui_client(object):
 
         # Leg 5
         self.button_leg5_front_plus = QtWidgets.QPushButton(client)
-        self.button_leg5_front_plus.setGeometry(QtCore.QRect(1680, 450, 60, 30))
+        self.button_leg5_front_plus.setGeometry(QtCore.QRect(1920, 450, 60, 30))
         self.button_leg5_front_plus.setFont(font)
         self.button_leg5_front_plus.setObjectName("button_leg5_front_plus")
 
         self.button_leg5_front_minus = QtWidgets.QPushButton(client)
-        self.button_leg5_front_minus.setGeometry(QtCore.QRect(1740, 450, 60, 30))
+        self.button_leg5_front_minus.setGeometry(QtCore.QRect(1980, 450, 60, 30))
         self.button_leg5_front_minus.setFont(font)
         self.button_leg5_front_minus.setObjectName("button_leg5_front_minus")
 
@@ -706,12 +712,12 @@ class Ui_client(object):
         self.button_leg5_middle_minus.setObjectName("button_leg5_middle_minus")
 
         self.button_leg5_back_plus = QtWidgets.QPushButton(client)
-        self.button_leg5_back_plus.setGeometry(QtCore.QRect(1920, 450, 60, 30))
+        self.button_leg5_back_plus.setGeometry(QtCore.QRect(1680, 450, 60, 30))
         self.button_leg5_back_plus.setFont(font)
         self.button_leg5_back_plus.setObjectName("button_leg5_back_plus")
 
         self.button_leg5_back_minus = QtWidgets.QPushButton(client)
-        self.button_leg5_back_minus.setGeometry(QtCore.QRect(1980, 450, 60, 30))
+        self.button_leg5_back_minus.setGeometry(QtCore.QRect(1740, 450, 60, 30))
         self.button_leg5_back_minus.setFont(font)
         self.button_leg5_back_minus.setObjectName("button_leg5_back_minus")
 
@@ -788,6 +794,7 @@ class Ui_client(object):
         self.progress_Power2.raise_()
         self.Button_Attack.raise_()
         self.Button_Dead.raise_()
+        self.Button_Update.raise_()
         self.Button_Refresh.raise_()
         self.label_leg1_title.raise_()
         self.label_leg2_title.raise_()
@@ -896,6 +903,7 @@ class Ui_client(object):
         self.label_RasPi.setText(_translate("client", "RasPi"))
         self.Button_Attack.setText(_translate("client", "Attack"))
         self.Button_Dead.setText(_translate("client", "Dead"))
+        self.Button_Update.setText(_translate("client", "Update"))
         self.Button_Refresh.setText(_translate("client", "Refresh"))
         self.label_leg1_title.setText(_translate("client", "Leg 1"))
         self.label_leg2_title.setText(_translate("client", "Leg 2"))

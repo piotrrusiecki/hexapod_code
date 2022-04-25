@@ -76,8 +76,8 @@ class Server:
         self.server_socket.close()
         try:
             with picamera.PiCamera() as camera:
-                camera.resolution = (400,300)       # pi camera resolution
-                camera.framerate = 15               # 15 frames/sec
+                camera.resolution = (990,810)       # pi camera resolution
+                camera.framerate = 24               # 15 frames/sec
                 camera.saturation = 80              # Set image video saturation
                 camera.brightness = 50              # Set the brightness of the image (50 indicates the state of white balance)
                 #camera.iso = 400 
@@ -168,8 +168,8 @@ class Server:
                 elif cmd.CMD_SONIC in data:
                     command=cmd.CMD_SONIC+"#"+str(self.sonic.getDistance())+"\n"
                     self.send_data(self.connection1,command)
-                elif cmd.CMD_ANGLES in data:
-                    command=cmd.CMD_ANGLES+"#"+str(self.control.getAngles())+"\n"
+                elif cmd.CMD_GET_ANGLES in data:
+                    command=cmd.CMD_GET_ANGLES+"#"+str(self.control.getAngles())+"\n"
                     self.send_data(self.connection1,command)
                 elif cmd.CMD_HEAD in data:
                     if len(data)==3:

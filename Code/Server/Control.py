@@ -139,6 +139,7 @@ class Control:
             self.servo.setServoAngle(22,self.angle[3][0])
             self.servo.setServoAngle(23,self.angle[3][1])
             self.servo.setServoAngle(27,self.angle[3][2])
+            self.getAngles()
         else:
             print("This coordinate point is out of the active range")
     def checkPoint(self):
@@ -468,15 +469,10 @@ class Control:
     
     def getAngles(self):
         coordinates = ""
-
         for leg in self.angle:
             for servo in leg:
                 coordinates = coordinates + str(servo) + str('#')
-
         coordinates = coordinates[:-1]
-        print("Resturning test value")
-        print(str(coordinates))
-
         return coordinates
 
     def setAngles(self):
