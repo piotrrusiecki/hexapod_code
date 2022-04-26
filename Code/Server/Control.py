@@ -260,11 +260,41 @@ class Control:
                     # self.servo.setServoAngle(16,30)
                     # self.servo.setServoAngle(17,)
                     self.servo.setServoAngle(18,180)
+            if cmd.CMD_SET_ANGLES in self.order:
+                print('Order')
+                print(self.order)
 
+                #leg1
+                self.servo.setServoAngle(15,int(self.order[1])) 
+                self.servo.setServoAngle(14,int(self.order[2]))
+                self.servo.setServoAngle(13,int(self.order[3]))
+                
+                #leg2
+                self.servo.setServoAngle(12,int(self.order[4]))
+                self.servo.setServoAngle(11,int(self.order[5]))
+                self.servo.setServoAngle(10,int(self.order[6]))
+                
+                #leg3
+                self.servo.setServoAngle(9,int(self.order[7]))
+                self.servo.setServoAngle(8,int(self.order[8]))
+                self.servo.setServoAngle(31,int(self.order[9]))
+                
+                #leg6
+                self.servo.setServoAngle(16,int(self.order[10]))
+                self.servo.setServoAngle(17,int(self.order[11]))
+                self.servo.setServoAngle(18,int(self.order[12]))
+                
+                #leg5
+                self.servo.setServoAngle(19,int(self.order[13]))
+                self.servo.setServoAngle(20,int(self.order[14]))
+                self.servo.setServoAngle(21,int(self.order[15]))
+                
+                #leg4
+                self.servo.setServoAngle(22,int(self.order[16]))
+                self.servo.setServoAngle(23,int(self.order[17]))
+                self.servo.setServoAngle(27,int(self.order[18]))
 
-                else:
-                    self.setLegAngle()
-                    self.order=['','','','','',''] 
+                self.order=['','','','','',''] 
 
     def relax(self,flag):
         if flag:

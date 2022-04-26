@@ -64,7 +64,7 @@ class MyWindow(QMainWindow,Ui_client):
         self.button_leg3_middle_plus.pressed.connect(lambda: self.angles(8, 1))
         self.button_leg3_middle_minus.pressed.connect(lambda: self.angles(8, 0))
         self.button_leg3_back_plus.pressed.connect(lambda: self.angles(9, 1))
-        self.button_leg3_back_minus.pressed.connect(lambda: self.angles(9, 1))
+        self.button_leg3_back_minus.pressed.connect(lambda: self.angles(9, 0))
         self.button_leg4_front_plus.pressed.connect(lambda: self.angles(27, 1))
         self.button_leg4_front_minus.pressed.connect(lambda: self.angles(27, 0))
         self.button_leg4_middle_plus.pressed.connect(lambda: self.angles(23, 1))
@@ -492,8 +492,87 @@ class MyWindow(QMainWindow,Ui_client):
             print(e)
 
     def set_angles(self):
+        result = ""
         try:
-            command=cmd.CMD_SET_ANGLES+'\n'
+            if 'S:' in self.label_leg1_back_value.text():
+                result = str(90) + '#'
+            else:
+                result = self.label_leg1_back_value.text() + '#'
+            if 'S:' in self.label_leg1_middle_value.text():
+                result = result + str(157) + '#'
+            else:
+                result = result + self.label_leg1_middle_value.text() + '#'
+            if 'S:' in self.label_leg1_front_value.text():
+                result = result + str(116) + '#'
+            else:
+                result = result + self.label_leg1_front_value.text() + '#'
+
+            if 'S:' in self.label_leg2_back_value.text():
+                result = result + str(90) + '#'
+            else:
+                result = result + self.label_leg2_back_value.text() + '#'
+            if 'S:' in self.label_leg2_middle_value.text():
+                result = result + str(157) + '#'
+            else:
+                result = result + self.label_leg2_middle_value.text() + '#'
+            if 'S:' in self.label_leg2_front_value.text():
+                result = result + str(116) + '#'
+            else:
+                result = result + self.label_leg2_front_value.text() + '#'
+
+            if 'S:' in self.label_leg3_back_value.text():
+                result = result + str(90) + '#'
+            else:
+                result = result + self.label_leg3_back_value.text() + '#'
+            if 'S:' in self.label_leg3_middle_value.text():
+                result = result + str(157) + '#'
+            else:
+                result = result + self.label_leg3_middle_value.text() + '#'
+            if 'S:' in self.label_leg3_front_value.text():
+                result = result + str(116) + '#'
+            else:
+                result = result + self.label_leg3_front_value.text() + '#'
+
+            if 'S:' in self.label_leg4_back_value.text():
+                result = result + str(90) + '#'
+            else:
+                result = result + self.label_leg4_back_value.text() + '#'
+            if 'S:' in self.label_leg4_middle_value.text():
+                result = result + str(23) + '#'
+            else:
+                result = result + self.label_leg4_middle_value.text() + '#'
+            if 'S:' in self.label_leg4_front_value.text():
+                result = result + str(64) + '#'
+            else:
+                result = result + self.label_leg4_front_value.text() + '#'
+
+            if 'S:' in self.label_leg5_back_value.text():
+                result = result + str(90) + '#'
+            else:
+                result = result + self.label_leg5_back_value.text() + '#'
+            if 'S:' in self.label_leg5_middle_value.text():
+                result = result + str(23) + '#'
+            else:
+                result = result + self.label_leg5_middle_value.text() + '#'
+            if 'S:' in self.label_leg5_front_value.text():
+                result = result + str(64) + '#'
+            else:
+                result = result + self.label_leg5_front_value.text() + '#'
+
+            if 'S:' in self.label_leg6_back_value.text():
+                result = result + str(90) + '#'
+            else:
+                result = result + self.label_leg6_back_value.text() + '#'
+            if 'S:' in self.label_leg6_middle_value.text():
+                result = result + str(23) + '#'
+            else:
+                result = result + self.label_leg6_middle_value.text() + '#'
+            if 'S:' in self.label_leg6_front_value.text():
+                result = result + str(64) + '#'
+            else:
+                result = result + self.label_leg6_front_value.text() + '#'
+
+            command=cmd.CMD_SET_ANGLES + '#' + str(result) + '\n'
             print (command)
             self.client.send_data(command)
         except Exception as e:
@@ -628,8 +707,8 @@ class MyWindow(QMainWindow,Ui_client):
                     self.label_leg4_back_value.setText(data[16])
                     self.label_leg4_middle_value.setText(data[17])
                     self.label_leg4_front_value.setText(data[18])
-
-                    print("Received angle data.")
+                elif data[0]==cmd.CMD_SET_ANGLES:
+                    print('Position adjusted.')
 
     def angles(self, servo, action):
         step = int(self.label_step_value.text())
@@ -815,9 +894,7 @@ class MyWindow(QMainWindow,Ui_client):
                     self.label_leg6_back_value.setText(str(90 - step))
                 else:
                     self.label_leg6_back_value.setText(str(int(self.label_leg6_back_value.text()) - step))
-
-        print(step)
-
+        self.set_angles()
 
     #CONNECT
     def connect(self):
