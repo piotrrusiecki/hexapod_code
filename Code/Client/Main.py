@@ -194,22 +194,22 @@ class MyWindow(QMainWindow,Ui_client):
             if event.key() == Qt.Key_W:
                 self.Key_W = True
                 print("W")
-                self.move_point = [750, 950]
+                self.move_point = [750, 900]
                 self.move()
             elif event.key() == Qt.Key_S:
                 self.Key_S = True
                 print("S")
-                self.move_point = [750, 1150]
+                self.move_point = [750, 1200]
                 self.move()
             elif event.key() == Qt.Key_A:
                 self.Key_A = True
                 print("A")
-                self.move_point = [650, 1050]
+                self.move_point = [600, 1050]
                 self.move()
             elif event.key() == Qt.Key_D:
                 self.Key_D = True
                 print("D")
-                self.move_point = [850, 1050]
+                self.move_point = [900, 1050]
                 self.move()
     # When you stop pressing a key the move point goes back to it's starting point.
 
@@ -415,6 +415,7 @@ class MyWindow(QMainWindow,Ui_client):
             self.move()
         self.update()
 
+    # Translates values from range (fromLow, fromHigh) into a range (toLow, toHigh)
     def map(self, value, fromLow, fromHigh, toLow, toHigh):
         return (toHigh - toLow) * (value - fromLow) / (fromHigh - fromLow) + toLow
 
@@ -433,18 +434,31 @@ class MyWindow(QMainWindow,Ui_client):
         try:
             x = self.map((self.move_point[0]-750),0,150,0,35)
             y = self.map((1050 - self.move_point[1]),0,150,0,35)
+            # Activated when strafing
             if self.action_flag == 1:
                 angle = 0
+            # Activated when turning only
             else:
                 if x!=0 or y!=0:
+                    #return radians of x/y from point 0,0 and converts the value to degrees
                     angle=math.degrees(math.atan2(x,y))
 
+                    # convers negative angles in left semi-circle into positive angles with the same point
                     if angle < -90 and angle >= -180:
                         angle=angle+360
+
+                    #converts values from the right semi-circle degree values of (-90, 90) to range (-10, 10)
                     if angle >= -90 and angle <=90:
                         angle = self.map(angle, -90, 90, -10, 10)
+
+                    #converts values from the left semi-circle degree values of (270, 90) to range (10, -10)
                     else:
                         angle = self.map(angle, 270, 90, 10, -10)
+                    
+                    # As a result the top left quarter will offer mirroring values along the same angle to bottom right quarter. 
+                    # Same applies to top rith quarter and bottom left quarter
+                    # Consequently, this informs the robot to turn back the in a symmetric direction to the front :)
+
                 else:
                     angle=0
             speed=self.client.move_speed
@@ -576,7 +590,7 @@ class MyWindow(QMainWindow,Ui_client):
             print (command)
             self.client.send_data(command)
         except Exception as e:
-            print(e)    
+            print(e)
 
     def attack(self, servo, action):
         try:
@@ -723,32 +737,32 @@ class MyWindow(QMainWindow,Ui_client):
                     self.label_leg1_middle_value.setText(str(157 + step))
                 else:
                     self.label_leg1_middle_value.setText(str(int(self.label_leg1_middle_value.text()) + step))
-            if servo == 15: 
+            if servo == 15:
                 if "S:" in self.label_leg1_back_value.text():
                     self.label_leg1_back_value.setText(str(90 + step))
                 else:
                     self.label_leg1_back_value.setText(str(int(self.label_leg1_back_value.text()) + step))
-            if servo == 10: 
+            if servo == 10:
                 if "S:" in self.label_leg2_front_value.text():
                     self.label_leg2_front_value.setText(str(116 + step))
                 else:
                     self.label_leg2_front_value.setText(str(int(self.label_leg2_front_value.text()) + step))
-            if servo == 11: 
+            if servo == 11:
                 if "S:" in self.label_leg2_middle_value.text():
                     self.label_leg2_middle_value.setText(str(157 + step))
                 else:
                     self.label_leg2_middle_value.setText(str(int(self.label_leg2_middle_value.text()) + step))
-            if servo == 12: 
+            if servo == 12:
                 if "S:" in self.label_leg2_back_value.text():
                     self.label_leg2_back_value.setText(str(90 + step))
                 else:
                     self.label_leg2_back_value.setText(str(int(self.label_leg2_back_value.text()) + step))
-            if servo == 31: 
+            if servo == 31:
                 if "S:" in self.label_leg3_front_value.text():
                     self.label_leg3_front_value.setText(str(116 + step))
                 else:
                     self.label_leg3_front_value.setText(str(int(self.label_leg3_front_value.text()) + step))
-            if servo == 8: 
+            if servo == 8:
                 if "S:" in self.label_leg3_middle_value.text():
                     self.label_leg3_middle_value.setText(str(157 + step))
                 else:
@@ -814,32 +828,32 @@ class MyWindow(QMainWindow,Ui_client):
                     self.label_leg1_middle_value.setText(str(157 - step))
                 else:
                     self.label_leg1_middle_value.setText(str(int(self.label_leg1_middle_value.text()) - step))
-            if servo == 15: 
+            if servo == 15:
                 if "S:" in self.label_leg1_back_value.text():
                     self.label_leg1_back_value.setText(str(90 - step))
                 else:
                     self.label_leg1_back_value.setText(str(int(self.label_leg1_back_value.text()) - step))
-            if servo == 10: 
+            if servo == 10:
                 if "S:" in self.label_leg2_front_value.text():
                     self.label_leg2_front_value.setText(str(116 - step))
                 else:
                     self.label_leg2_front_value.setText(str(int(self.label_leg2_front_value.text()) - step))
-            if servo == 11: 
+            if servo == 11:
                 if "S:" in self.label_leg2_middle_value.text():
                     self.label_leg2_middle_value.setText(str(157 - step))
                 else:
                     self.label_leg2_middle_value.setText(str(int(self.label_leg2_middle_value.text()) - step))
-            if servo == 12: 
+            if servo == 12:
                 if "S:" in self.label_leg2_back_value.text():
                     self.label_leg2_back_value.setText(str(90 - step))
                 else:
                     self.label_leg2_back_value.setText(str(int(self.label_leg2_back_value.text()) - step))
-            if servo == 31: 
+            if servo == 31:
                 if "S:" in self.label_leg3_front_value.text():
                     self.label_leg3_front_value.setText(str(116 - step))
                 else:
                     self.label_leg3_front_value.setText(str(int(self.label_leg3_front_value.text()) - step))
-            if servo == 8: 
+            if servo == 8:
                 if "S:" in self.label_leg3_middle_value.text():
                     self.label_leg3_middle_value.setText(str(157 - step))
                 else:
