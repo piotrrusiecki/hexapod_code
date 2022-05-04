@@ -867,7 +867,7 @@ class Ui_client(object):
         # Defines label texts
     def retranslateUi(self, client):
         _translate = QtCore.QCoreApplication.translate
-        client.setWindowTitle(_translate("client", "Freenove Client for Hexapod by PR"))
+        client.setWindowTitle(_translate("client", "Hexapod Client"))
         self.label_head_title.setText(_translate("client", "Head"))
         self.label_head.setText(_translate("client", "90"))
         self.label_head_1.setText(_translate("client", "90"))

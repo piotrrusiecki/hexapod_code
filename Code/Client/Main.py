@@ -454,18 +454,21 @@ class MyWindow(QMainWindow,Ui_client):
                     #converts values from the left semi-circle degree values of (270, 90) to range (10, -10)
                     else:
                         angle = self.map(angle, 270, 90, 10, -10)
-                    
-                    # As a result the top left quarter will offer mirroring values along the same angle to bottom right quarter. 
+
+                    # This limits the turn to only 10 degrees
+
+                    # As a result the top left quarter will offer mirroring values along the same angle to bottom right quarter.
                     # Same applies to top rith quarter and bottom left quarter
                     # Consequently, this informs the robot to turn back the in a symmetric direction to the front :)
 
                 else:
                     angle=0
+
             speed=self.client.move_speed
             command = cmd.CMD_MOVE+ "#"+str(self.gait_flag)+"#"+str(round(x))+"#"+str(round(y))\
                       +"#"+str(speed)+"#"+str(round(angle)) +'\n'
             self.label_move_value.setText(str((round(x), round(y))))
-            print(command)
+            # print(command)
             self.client.send_data(command)
         except Exception as e:
             print(e)

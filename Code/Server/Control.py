@@ -25,6 +25,8 @@ class Control:
         self.flag=0x00
         self.timeout=0
         self.height=-25
+        # Below defines position of six legs: front right, middle right, back right,
+        # back left, middle left, front left
         self.body_point=[[137.1 ,189.4 , self.height], [225, 0, self.height], [137.1 ,-189.4 , self.height], 
                          [-137.1 ,-189.4 , self.height], [-225, 0, self.height], [-137.1 ,189.4 , self.height]]
         self.calibration_leg_point=self.readFromTxt('point')
@@ -178,12 +180,22 @@ class Control:
                 self.flag=0x02
                 self.order=['','','','','',''] 
             elif cmd.CMD_MOVE in self.order and len(self.order)==6:
+                #Syntax is:
+                # self.order[0] is CMD_MOVE, that's why we ended in this elif
+                # self.order[1] is gait type (walk/run)
+                # self.order[2] is move alongside x axis
+                # self.order[3] is move alongside y axis
+                # self.order[4] is speed
+                # self.order[5] is angle
+
+                # This needs investigation - in both cases igt activates the same 'run' function, but when there's no change of h/y it changes rest flag
                 if self.order[2] =="0" and self.order[3] =="0":
                     self.run(self.order)
                     self.order=['','','','','',''] 
                 else:
                     if self.flag!=0x03:
                         self.relax(False)
+                
                     self.run(self.order)
                     self.flag=0x03
             elif cmd.CMD_BALANCE in self.order and len(self.order)==2:
@@ -414,6 +426,7 @@ class Control:
  
     def run(self,data,Z=40,F=64):#example : data=['CMD_MOVE', '1', '0', '25', '10', '0']
         gait=data[1]
+        #This checks if there were correct values passed and rewrties them to given contstraints 
         x=self.restriction(int(data[2]),-35,35)
         y=self.restriction(int(data[3]),-35,35)
         if gait=="1" :
@@ -421,21 +434,28 @@ class Control:
         else:
             F=round(self.map(int(data[4]),2,10,171,45))
         angle=int(data[5])
+        # This is always given with Z=40 and F=64 from the default function values
         z=Z/F
         delay=0.01
+        # Copies current leg positions to new value named point
         point=copy.deepcopy(self.body_point)
-        #if y < 0:
-        #   angle=-angle 
+        # If there's a turn, then x moved to zero - doesn't seem to be the case for exactly for movement
         if angle!=0:
             x=0
         xy=[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]
+        # This seems to calculate where to move the legs based on supplied angle and target coordiante
+        # It can be rewritten using math.radians function
+        # Also see supplemental.calculations excel
         for i in range(6):
-            xy[i][0]=((point[i][0]*math.cos(angle/180*math.pi)+point[i][1]*math.sin(angle/180*math.pi)-point[i][0])+x)/F
-            xy[i][1]=((-point[i][0]*math.sin(angle/180*math.pi)+point[i][1]*math.cos(angle/180*math.pi)-point[i][1])+y)/F
+            xy[i][0]=((point[i][0]*math.cos(math.radians(angle))+point[i][1]*math.sin(math.radians(angle))-point[i][0])+x)/F
+            xy[i][1]=((-point[i][0]*math.sin(math.radians(angle))+point[i][1]*math.cos(math.radians(angle))-point[i][1])+y)/F
+        # If there's no changes in position, just coordinate the robot positioning
+        print(xy)
         if x == 0 and y == 0 and angle==0:
             self.coordinateTransformation(point)
             self.setLegAngle()
         elif gait=="1" :
+
             for j in range (F):
                 for i in range(3):
                     if j< (F/8):
