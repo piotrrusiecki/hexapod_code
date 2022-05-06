@@ -455,7 +455,7 @@ class MyWindow(QMainWindow,Ui_client):
                     else:
                         angle = self.map(angle, 270, 90, 10, -10)
 
-                    # This limits the turn to only 10 degrees
+                    # This limits the turn to only 10
 
                     # As a result the top left quarter will offer mirroring values along the same angle to bottom right quarter.
                     # Same applies to top rith quarter and bottom left quarter

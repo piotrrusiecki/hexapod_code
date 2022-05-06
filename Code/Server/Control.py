@@ -425,17 +425,30 @@ class Control:
             self.setLegAngle()
  
     def run(self,data,Z=40,F=64):#example : data=['CMD_MOVE', '1', '0', '25', '10', '0']
+
+        #Syntax is:
+        # self.order[0] is CMD_MOVE, that's why we ended in this elif
+        # self.order[1] is gait type (walk/run)
+        # self.order[2] is move alongside x axis
+        # self.order[3] is move alongside y axis
+        # self.order[4] is speed
+        # self.order[5] is angle
+
         gait=data[1]
         #This checks if there were correct values passed and rewrties them to given contstraints 
         x=self.restriction(int(data[2]),-35,35)
         y=self.restriction(int(data[3]),-35,35)
+        print("Speed: " + str(data[4]))
         if gait=="1" :
             F=round(self.map(int(data[4]),2,10,126,22))
+            print("Transformed speed, gait 1: " + str(F))
         else:
             F=round(self.map(int(data[4]),2,10,171,45))
+            print("Transformed speed, other gait: " + str(F))
         angle=int(data[5])
         # This is always given with Z=40 and F=64 from the default function values
         z=Z/F
+        # Fixed delay in the step delay
         delay=0.01
         # Copies current leg positions to new value named point
         point=copy.deepcopy(self.body_point)
@@ -450,47 +463,48 @@ class Control:
             xy[i][0]=((point[i][0]*math.cos(math.radians(angle))+point[i][1]*math.sin(math.radians(angle))-point[i][0])+x)/F
             xy[i][1]=((-point[i][0]*math.sin(math.radians(angle))+point[i][1]*math.cos(math.radians(angle))-point[i][1])+y)/F
         # If there's no changes in position, just coordinate the robot positioning
-        print(xy)
+        print("Point: " + str(point))
+        print("xy: " + str(xy))
+        print("Z: " + str(Z) + " self.height: " + str(self.height))
         if x == 0 and y == 0 and angle==0:
             self.coordinateTransformation(point)
             self.setLegAngle()
         elif gait=="1" :
-
             for j in range (F):
                 for i in range(3):
-                    if j< (F/8):
+                    if j < (F/8):
                         point[2*i][0]=point[2*i][0]-4*xy[2*i][0]
                         point[2*i][1]=point[2*i][1]-4*xy[2*i][1]
                         point[2*i+1][0]=point[2*i+1][0]+8*xy[2*i+1][0]
                         point[2*i+1][1]=point[2*i+1][1]+8*xy[2*i+1][1]
                         point[2*i+1][2]=Z+self.height
-                    elif j< (F/4):
+                    elif j < (F/4):
                         point[2*i][0]=point[2*i][0]-4*xy[2*i][0]
                         point[2*i][1]=point[2*i][1]-4*xy[2*i][1]
                         point[2*i+1][2]=point[2*i+1][2]-z*8
-                    elif j< (3*F/8):
+                    elif j < (3*F/8):
                         point[2*i][2]=point[2*i][2]+z*8
                         point[2*i+1][0]=point[2*i+1][0]-4*xy[2*i+1][0]
                         point[2*i+1][1]=point[2*i+1][1]-4*xy[2*i+1][1]
-                    elif j< (5*F/8):
+                    elif j < (5*F/8):
                         point[2*i][0]=point[2*i][0]+8*xy[2*i][0]
                         point[2*i][1]=point[2*i][1]+8*xy[2*i][1]
-                    
                         point[2*i+1][0]=point[2*i+1][0]-4*xy[2*i+1][0]
                         point[2*i+1][1]=point[2*i+1][1]-4*xy[2*i+1][1]
-                    elif j< (3*F/4):
+                    elif j < (3*F/4):
                         point[2*i][2]=point[2*i][2]-z*8
                         point[2*i+1][0]=point[2*i+1][0]-4*xy[2*i+1][0]
                         point[2*i+1][1]=point[2*i+1][1]-4*xy[2*i+1][1]
-                    elif j< (7*F/8):
+                    elif j < (7*F/8):
                         point[2*i][0]=point[2*i][0]-4*xy[2*i][0]
                         point[2*i][1]=point[2*i][1]-4*xy[2*i][1]
                         point[2*i+1][2]=point[2*i+1][2]+z*8
-                    elif j< (F):
+                    elif j < (F):
                         point[2*i][0]=point[2*i][0]-4*xy[2*i][0]
                         point[2*i][1]=point[2*i][1]-4*xy[2*i][1]
                         point[2*i+1][0]=point[2*i+1][0]+8*xy[2*i+1][0]
                         point[2*i+1][1]=point[2*i+1][1]+8*xy[2*i+1][1]
+                    print("j: " + str(j) + " F/8: " + str(F/8) + " F/4: " + str(F/4) + " 3*F/8: " + str(3*F/8) + " 5*F/8: " + str(5*F/8) + " 3*F/4: " + str(3*F/4) + " 7*F/8: " + str(7*F/8) + " F: " + str(F) + " 2*i: " + str(2*i) + " 2*i+1: " + str(2*i+1))
                 self.coordinateTransformation(point)
                 self.setLegAngle()
                 time.sleep(delay)
