@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from operator import or_
 import time
 import math
 import smbus
@@ -25,9 +26,10 @@ class Control:
         self.flag=0x00
         self.timeout=0
         self.height=-25
-        # Below defines position of six legs: front right, middle right, back right,
-        # back left, middle left, front left
-        self.body_point=[[137.1 ,189.4 , self.height], [225, 0, self.height], [137.1 ,-189.4 , self.height], 
+        # Below defines position of six legs:
+        # front right, middle right, back right,
+        # front left, middle left, back left
+        self.body_point=[[137.1 ,189.4 , self.height], [225, 0, self.height], [137.1 ,-189.4 , self.height],
                          [-137.1 ,-189.4 , self.height], [-225, 0, self.height], [-137.1 ,189.4 , self.height]]
         self.calibration_leg_point=self.readFromTxt('point')
         self.leg_point=[[140, 0, 0], [140, 0, 0], [140, 0, 0], [140, 0, 0], [140, 0, 0], [140, 0, 0]]
@@ -58,7 +60,7 @@ class Control:
                 file2.write('\t')
             file2.write('\n')
         file2.close()
-        
+
     def coordinateToAngle(self,ox,oy,oz,l1=33,l2=90,l3=110):
         a=math.pi/2-math.atan2(oz,oy)
         x_3=0
@@ -92,18 +94,21 @@ class Control:
             self.angle[i][0],self.angle[i][1],self.angle[i][2]=self.coordinateToAngle(-self.leg_point[i][2],
                                                                                       self.leg_point[i][0],
                                                                                       self.leg_point[i][1])
-        
+
         for i in range(6):
             self.calibration_angle[i][0]=self.calibration_angle[i][0]-self.angle[i][0]
             self.calibration_angle[i][1]=self.calibration_angle[i][1]-self.angle[i][1]
             self.calibration_angle[i][2]=self.calibration_angle[i][2]-self.angle[i][2]
-    
+
     def setLegAngle(self):
         if self.checkPoint():
+            # This moves 'leg point' array into 'angle' array, changing direction of z and reassigning elements
             for i in range(6):
                 self.angle[i][0],self.angle[i][1],self.angle[i][2]=self.coordinateToAngle(-self.leg_point[i][2],
                                                                                           self.leg_point[i][0],
                                                                                           self.leg_point[i][1])
+
+            # Forces angle values to exist only in specific angles
             for i in range(3):
                 self.angle[i][0]=self.restriction(self.angle[i][0]+self.calibration_angle[i][0],0,180)
                 self.angle[i][1]=self.restriction(90-(self.angle[i][1]+self.calibration_angle[i][1]),0,180)
@@ -111,32 +116,32 @@ class Control:
                 self.angle[i+3][0]=self.restriction(self.angle[i+3][0]+self.calibration_angle[i+3][0],0,180)
                 self.angle[i+3][1]=self.restriction(90+self.angle[i+3][1]+self.calibration_angle[i+3][1],0,180)
                 self.angle[i+3][2]=self.restriction(180-(self.angle[i+3][2]+self.calibration_angle[i+3][2]),0,180)
-             
+
             #leg1
-            self.servo.setServoAngle(15,self.angle[0][0]) 
+            self.servo.setServoAngle(15,self.angle[0][0])
             self.servo.setServoAngle(14,self.angle[0][1])
             self.servo.setServoAngle(13,self.angle[0][2])
-            
+
             #leg2
             self.servo.setServoAngle(12,self.angle[1][0])
             self.servo.setServoAngle(11,self.angle[1][1])
             self.servo.setServoAngle(10,self.angle[1][2])
-            
+
             #leg3
             self.servo.setServoAngle(9,self.angle[2][0])
             self.servo.setServoAngle(8,self.angle[2][1])
             self.servo.setServoAngle(31,self.angle[2][2])
-            
+
             #leg6
             self.servo.setServoAngle(16,self.angle[5][0])
             self.servo.setServoAngle(17,self.angle[5][1])
             self.servo.setServoAngle(18,self.angle[5][2])
-            
+
             #leg5
             self.servo.setServoAngle(19,self.angle[4][0])
             self.servo.setServoAngle(20,self.angle[4][1])
             self.servo.setServoAngle(21,self.angle[4][2])
-            
+
             #leg4
             self.servo.setServoAngle(22,self.angle[3][0])
             self.servo.setServoAngle(23,self.angle[3][1])
@@ -144,15 +149,17 @@ class Control:
             self.getAngles()
         else:
             print("This coordinate point is out of the active range")
+            
     def checkPoint(self):
         flag=True
-        leg_lenght=[0,0,0,0,0,0]  
+        leg_lenght=[0,0,0,0,0,0]
         for i in range(6):
           leg_lenght[i]=math.sqrt(self.leg_point[i][0]**2+self.leg_point[i][1]**2+self.leg_point[i][2]**2)
         for i in range(6):
           if leg_lenght[i] > 248 or leg_lenght[i] < 90:
             flag=False
         return flag
+
     def condition(self):
         while True:
             if (time.time()-self.timeout)>10 and  self.timeout!=0 and self.order[0]=='':
@@ -167,7 +174,7 @@ class Control:
                 z=self.restriction(int(self.order[3]),-20,20)
                 self.posittion(x,y,z)
                 self.flag=0x01
-                self.order=['','','','','',''] 
+                self.order=['','','','','','']
             elif cmd.CMD_ATTITUDE in self.order and len(self.order)==4:
                 if self.flag!=0x02:
                     self.relax(False)
@@ -178,7 +185,7 @@ class Control:
                 self.coordinateTransformation(point)
                 self.setLegAngle()
                 self.flag=0x02
-                self.order=['','','','','',''] 
+                self.order=['','','','','','']
             elif cmd.CMD_MOVE in self.order and len(self.order)==6:
                 #Syntax is:
                 # self.order[0] is CMD_MOVE, that's why we ended in this elif
@@ -191,16 +198,16 @@ class Control:
                 # This needs investigation - in both cases igt activates the same 'run' function, but when there's no change of h/y it changes rest flag
                 if self.order[2] =="0" and self.order[3] =="0":
                     self.run(self.order)
-                    self.order=['','','','','',''] 
+                    self.order=['','','','','','']
                 else:
                     if self.flag!=0x03:
                         self.relax(False)
-                
+
                     self.run(self.order)
                     self.flag=0x03
             elif cmd.CMD_BALANCE in self.order and len(self.order)==2:
                 if self.order[1] =="1":
-                    self.order=['','','','','',''] 
+                    self.order=['','','','','','']
                     if self.flag!=0x04:
                         self.relax(False)
                     self.flag=0x04
@@ -248,7 +255,7 @@ class Control:
                         self.setLegAngle()
                     elif self.order[1]=="save":
                         self.saveToTxt(self.calibration_leg_point,'point')
-                self.order=['','','','','',''] 
+                self.order=['','','','','','']
             elif cmd.CMD_ATTACK in self.order:
                 if self.order[1] =="1":
                     print("Attacking!")
@@ -277,69 +284,74 @@ class Control:
                 print(self.order)
 
                 #leg1
-                self.servo.setServoAngle(15,int(self.order[1])) 
+                self.servo.setServoAngle(15,int(self.order[1]))
                 self.servo.setServoAngle(14,int(self.order[2]))
                 self.servo.setServoAngle(13,int(self.order[3]))
-                
+
                 #leg2
                 self.servo.setServoAngle(12,int(self.order[4]))
                 self.servo.setServoAngle(11,int(self.order[5]))
                 self.servo.setServoAngle(10,int(self.order[6]))
-                
+
                 #leg3
                 self.servo.setServoAngle(9,int(self.order[7]))
                 self.servo.setServoAngle(8,int(self.order[8]))
                 self.servo.setServoAngle(31,int(self.order[9]))
-                
+
                 #leg6
                 self.servo.setServoAngle(16,int(self.order[10]))
                 self.servo.setServoAngle(17,int(self.order[11]))
                 self.servo.setServoAngle(18,int(self.order[12]))
-                
+
                 #leg5
                 self.servo.setServoAngle(19,int(self.order[13]))
                 self.servo.setServoAngle(20,int(self.order[14]))
                 self.servo.setServoAngle(21,int(self.order[15]))
-                
+
                 #leg4
                 self.servo.setServoAngle(22,int(self.order[16]))
                 self.servo.setServoAngle(23,int(self.order[17]))
                 self.servo.setServoAngle(27,int(self.order[18]))
 
-                self.order=['','','','','',''] 
+                self.order=['','','','','','']
 
     def relax(self,flag):
         if flag:
             self.servo.relax()
         else:
             self.setLegAngle()
-        
+
     def coordinateTransformation(self,point):
+        # This moves 'point' array into 'leg_point' array doing trig along the way
+        print('Point_input: ' + str(point))
+        print('Leg_point_1: ' + str(self.leg_point))
         #leg1
-        self.leg_point[0][0]=point[0][0]*math.cos(54/180*math.pi)+point[0][1]*math.sin(54/180*math.pi)-94
-        self.leg_point[0][1]=-point[0][0]*math.sin(54/180*math.pi)+point[0][1]*math.cos(54/180*math.pi)
+        self.leg_point[0][0]=point[0][0]*math.cos(math.radians(54))+point[0][1]*math.sin(math.radians(54))-94
+        self.leg_point[0][1]=-point[0][0]*math.sin(math.radians(54))+point[0][1]*math.cos(math.radians(54))
         self.leg_point[0][2]=point[0][2]-14
         #leg2
-        self.leg_point[1][0]=point[1][0]*math.cos(0/180*math.pi)+point[1][1]*math.sin(0/180*math.pi)-85
-        self.leg_point[1][1]=-point[1][0]*math.sin(0/180*math.pi)+point[1][1]*math.cos(0/180*math.pi)
+        self.leg_point[1][0]=point[1][0]*math.cos(math.radians(0))+point[1][1]*math.sin(math.radians(0))-85
+        self.leg_point[1][1]=-point[1][0]*math.sin(math.radians(0))+point[1][1]*math.cos(math.radians(0))
         self.leg_point[1][2]=point[1][2]-14
         #leg3
-        self.leg_point[2][0]=point[2][0]*math.cos(-54/180*math.pi)+point[2][1]*math.sin(-54/180*math.pi)-94
-        self.leg_point[2][1]=-point[2][0]*math.sin(-54/180*math.pi)+point[2][1]*math.cos(-54/180*math.pi)
+        self.leg_point[2][0]=point[2][0]*math.cos(math.radians(-54))+point[2][1]*math.sin(math.radians(-54))-94
+        self.leg_point[2][1]=-point[2][0]*math.sin(math.radians(-54))+point[2][1]*math.cos(math.radians(-54))
         self.leg_point[2][2]=point[2][2]-14
         #leg4
-        self.leg_point[3][0]=point[3][0]*math.cos(-126/180*math.pi)+point[3][1]*math.sin(-126/180*math.pi)-94
-        self.leg_point[3][1]=-point[3][0]*math.sin(-126/180*math.pi)+point[3][1]*math.cos(-126/180*math.pi)
+        self.leg_point[3][0]=point[3][0]*math.cos(math.radians(-126))+point[3][1]*math.sin(math.radians(-126))-94
+        self.leg_point[3][1]=-point[3][0]*math.sin(math.radians(-126))+point[3][1]*math.cos(math.radians(-126))
         self.leg_point[3][2]=point[3][2]-14
         #leg5
-        self.leg_point[4][0]=point[4][0]*math.cos(180/180*math.pi)+point[4][1]*math.sin(180/180*math.pi)-85
-        self.leg_point[4][1]=-point[4][0]*math.sin(180/180*math.pi)+point[4][1]*math.cos(180/180*math.pi)
+        self.leg_point[4][0]=point[4][0]*math.cos(math.radians(180))+point[4][1]*math.sin(math.radians(180))-85
+        self.leg_point[4][1]=-point[4][0]*math.sin(math.radians(180))+point[4][1]*math.cos(math.radians(180))
         self.leg_point[4][2]=point[4][2]-14
         #leg6
-        self.leg_point[5][0]=point[5][0]*math.cos(126/180*math.pi)+point[5][1]*math.sin(126/180*math.pi)-94
-        self.leg_point[5][1]=-point[5][0]*math.sin(126/180*math.pi)+point[5][1]*math.cos(126/180*math.pi)
+        self.leg_point[5][0]=point[5][0]*math.cos(math.radians(126))+point[5][1]*math.sin(math.radians(126))-94
+        self.leg_point[5][1]=-point[5][0]*math.sin(math.radians(126))+point[5][1]*math.cos(math.radians(126))
         self.leg_point[5][2]=point[5][2]-14
-    
+        print('Leg_point_2: ' + str(self.leg_point))
+
+
     def restriction(self,var,v_min,v_max):
         if var < v_min:
             return v_min
@@ -350,7 +362,7 @@ class Control:
 
     def map(self,value,fromLow,fromHigh,toLow,toHigh):
         return (toHigh-toLow)*(value-fromLow) / (fromHigh-fromLow) + toLow
-    
+
     def posittion(self,x,y,z):
         point=copy.deepcopy(self.body_point)
         for i in range(6):
@@ -361,7 +373,7 @@ class Control:
             self.body_point[i][2]=point[i][2]
         self.coordinateTransformation(point)
         self.setLegAngle()
-            
+
     def postureBalance(self,r, p, y):
         pos = np.mat([0.0, 0.0, self.height]).T
         rpy = np.array([r, p, y]) * math.pi / 180
@@ -375,32 +387,32 @@ class Control:
         rotz = np.mat([[math.cos(Y), -math.sin(Y), 0],
                        [math.sin(Y), math.cos(Y), 0],
                        [0, 0, 1]])
-                       
+
         rot_mat = rotx * roty * rotz
-        
+
         body_struc = np.mat([[55, 76, 0],
                              [85, 0, 0],
                              [55, -76, 0],
                              [-55, -76, 0],
                              [-85, 0, 0],
                              [-55, 76, 0]]).T
-                         
+
         footpoint_struc = np.mat([[137.1 ,189.4 ,   0],
                                   [225, 0,   0],
                                   [137.1 ,-189.4 ,   0],
                                   [-137.1 ,-189.4 ,   0],
                                   [-225, 0,   0],
                                   [-137.1 ,189.4 ,   0]]).T
-                                  
+
         AB = np.mat(np.zeros((3, 6)))
         ab=[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]]
         for i in range(6):
-            AB[:, i] = pos +rot_mat * footpoint_struc[:, i] 
+            AB[:, i] = pos +rot_mat * footpoint_struc[:, i]
             ab[i][0]=AB[0,i]
             ab[i][1]=AB[1,i]
             ab[i][2]=AB[2,i]
-        return (ab)  
-         
+        return (ab)
+
     def imu6050(self):
         old_r=0
         old_p=0
@@ -423,7 +435,7 @@ class Control:
             point=self.postureBalance(r,p,0)
             self.coordinateTransformation(point)
             self.setLegAngle()
- 
+
     def run(self,data,Z=40,F=64):#example : data=['CMD_MOVE', '1', '0', '25', '10', '0']
 
         #Syntax is:
@@ -435,7 +447,7 @@ class Control:
         # self.order[5] is angle
 
         gait=data[1]
-        #This checks if there were correct values passed and rewrties them to given contstraints 
+        #This checks if there were correct values passed and rewrties them to given contstraints
         x=self.restriction(int(data[2]),-35,35)
         y=self.restriction(int(data[3]),-35,35)
         print("Speed: " + str(data[4]))
@@ -457,20 +469,22 @@ class Control:
             x=0
         xy=[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]
         # This seems to calculate where to move the legs based on supplied angle and target coordiante
-        # It can be rewritten using math.radians function
         # Also see supplemental.calculations excel
         for i in range(6):
             xy[i][0]=((point[i][0]*math.cos(math.radians(angle))+point[i][1]*math.sin(math.radians(angle))-point[i][0])+x)/F
             xy[i][1]=((-point[i][0]*math.sin(math.radians(angle))+point[i][1]*math.cos(math.radians(angle))-point[i][1])+y)/F
         # If there's no changes in position, just coordinate the robot positioning
-        print("Point: " + str(point))
+        print("Step start point: " + str(point))
         print("xy: " + str(xy))
-        print("Z: " + str(Z) + " self.height: " + str(self.height))
+        print("Z: " + str(Z) + " self.height: " + str(self.height) + " z: " + str(z))
         if x == 0 and y == 0 and angle==0:
             self.coordinateTransformation(point)
             self.setLegAngle()
         elif gait=="1" :
             for j in range (F):
+                # if uncommented it will introduce breaks at every section in the below loop
+                # if j == 6 or j == 12 or j ==18 or j == 30 or j == 36 or j == 42:
+                #     time.sleep(1)
                 for i in range(3):
                     if j < (F/8):
                         point[2*i][0]=point[2*i][0]-4*xy[2*i][0]
@@ -504,11 +518,12 @@ class Control:
                         point[2*i][1]=point[2*i][1]-4*xy[2*i][1]
                         point[2*i+1][0]=point[2*i+1][0]+8*xy[2*i+1][0]
                         point[2*i+1][1]=point[2*i+1][1]+8*xy[2*i+1][1]
-                    print("j: " + str(j) + " F/8: " + str(F/8) + " F/4: " + str(F/4) + " 3*F/8: " + str(3*F/8) + " 5*F/8: " + str(5*F/8) + " 3*F/4: " + str(3*F/4) + " 7*F/8: " + str(7*F/8) + " F: " + str(F) + " 2*i: " + str(2*i) + " 2*i+1: " + str(2*i+1))
+                    # print("Step iteration point: " + str(point))
                 self.coordinateTransformation(point)
                 self.setLegAngle()
                 time.sleep(delay)
-                
+            print("Step final point: " + str(point))
+
         elif gait=="2":
             aa=0
             number=[5,2,1,0,3,4]
@@ -528,9 +543,9 @@ class Control:
                             point[k][1]-=2*xy[k][1]
                     self.coordinateTransformation(point)
                     self.setLegAngle()
-                    time.sleep(delay) 
+                    time.sleep(delay)
                     aa+=1
-    
+
     def getAngles(self):
         coordinates = ""
         for leg in self.angle:
@@ -541,23 +556,23 @@ class Control:
 
     def setAngles(self):
         pass
-                             
+
 if __name__=='__main__':
     pass
-    
 
 
 
 
-   
-   
 
-            
-        
-        
-        
-            
-        
-            
 
-  
+
+
+
+
+
+
+
+
+
+
+
