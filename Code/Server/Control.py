@@ -260,25 +260,60 @@ class Control:
                 if self.order[1] =="1":
                     print("Attacking!")
 
-                    #leg2
-                    # self.servo.setServoAngle(12,30)
-                    # self.servo.setServoAngle(11,0)
-                    # self.servo.setServoAngle(10,90)
+                    servo_11 = self.angle[1][1]
+                    servo_12 = self.angle[1][0]
 
-                    #leg5
-                    # self.servo.setServoAngle(19,30)
-                    # self.servo.setServoAngle(20,0)
-                    # self.servo.setServoAngle(21,90)
+                    servo_19 = self.angle[4][0]
+                    servo_20 = self.angle[4][1]
 
-                    #leg1
-                    # self.servo.setServoAngle(15,30)
-                    # self.servo.setServoAngle(14,)
-                    self.servo.setServoAngle(13,0)
+                    delay=0.01
 
-                    #leg6
-                    # self.servo.setServoAngle(16,30)
-                    # self.servo.setServoAngle(17,)
-                    self.servo.setServoAngle(18,180)
+                    print(str(servo_11) + " " + str(servo_12) + " " + str(servo_19) + " " + str(servo_20))
+
+                    for j in range(25):
+                        servo_11 += 1
+                        self.servo.setServoAngle(11,int(servo_11))
+                        time.sleep(delay)
+                    print(servo_11)
+
+                    for j in range(40):
+                        servo_12 -= 1
+                        self.servo.setServoAngle(12,int(servo_12))
+                        time.sleep(delay)
+
+                    for j in range(25):
+                        servo_11 -= 1
+                        self.servo.setServoAngle(11,int(servo_11))
+                        time.sleep(delay)
+                    print(servo_11)
+
+                    for j in range(25):
+                        servo_20 -= 1
+                        self.servo.setServoAngle(20,int(servo_20))
+                        time.sleep(delay)
+
+                    for j in range(40):
+                        servo_19 += 1
+                        self.servo.setServoAngle(19,int(servo_19))
+                        time.sleep(delay)
+
+                    for j in range(25):
+                        servo_20 += 1
+                        self.servo.setServoAngle(20,int(servo_20))
+                        time.sleep(delay)
+                    
+                    for j in range(25):
+                        servo_11 -= 1
+                        servo_20 += 1
+                        self.servo.setServoAngle(11,int(servo_11))
+                        self.servo.setServoAngle(20,int(servo_20))
+                        time.sleep(delay)
+
+                    self.order[1] = 0
+
+
+
+
             if cmd.CMD_SET_ANGLES in self.order:
                 print('Order')
                 print(self.order)
@@ -323,8 +358,8 @@ class Control:
 
     def coordinateTransformation(self,point):
         # This moves 'point' array into 'leg_point' array doing trig along the way
-        print('Point_input: ' + str(point))
-        print('Leg_point_1: ' + str(self.leg_point))
+        # print('Point_input: ' + str(point))
+        # print('Leg_point_1: ' + str(self.leg_point))
         #leg1
         self.leg_point[0][0]=point[0][0]*math.cos(math.radians(54))+point[0][1]*math.sin(math.radians(54))-94
         self.leg_point[0][1]=-point[0][0]*math.sin(math.radians(54))+point[0][1]*math.cos(math.radians(54))
@@ -349,7 +384,7 @@ class Control:
         self.leg_point[5][0]=point[5][0]*math.cos(math.radians(126))+point[5][1]*math.sin(math.radians(126))-94
         self.leg_point[5][1]=-point[5][0]*math.sin(math.radians(126))+point[5][1]*math.cos(math.radians(126))
         self.leg_point[5][2]=point[5][2]-14
-        print('Leg_point_2: ' + str(self.leg_point))
+        # print('Leg_point_2: ' + str(self.leg_point))
 
 
     def restriction(self,var,v_min,v_max):
@@ -458,7 +493,7 @@ class Control:
             F=round(self.map(int(data[4]),2,10,171,45))
             print("Transformed speed, other gait: " + str(F))
         angle=int(data[5])
-        # This is always given with Z=40 and F=64 from the default function values
+        # This is always given with Z=40 and F if as transformed speed from the default function values
         z=Z/F
         # Fixed delay in the step delay
         delay=0.01
@@ -474,9 +509,9 @@ class Control:
             xy[i][0]=((point[i][0]*math.cos(math.radians(angle))+point[i][1]*math.sin(math.radians(angle))-point[i][0])+x)/F
             xy[i][1]=((-point[i][0]*math.sin(math.radians(angle))+point[i][1]*math.cos(math.radians(angle))-point[i][1])+y)/F
         # If there's no changes in position, just coordinate the robot positioning
-        print("Step start point: " + str(point))
-        print("xy: " + str(xy))
-        print("Z: " + str(Z) + " self.height: " + str(self.height) + " z: " + str(z))
+        # print("Step start point: " + str(point))
+        # print("xy: " + str(xy))
+        # print("Z: " + str(Z) + " self.height: " + str(self.height) + " z: " + str(z))
         if x == 0 and y == 0 and angle==0:
             self.coordinateTransformation(point)
             self.setLegAngle()

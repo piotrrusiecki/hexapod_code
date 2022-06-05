@@ -485,18 +485,20 @@ class MyWindow(QMainWindow,Ui_client):
         except Exception as e:
             print(e)
 
-   #ATTACK
+    #ATTACK
     def attack(self):
         try:
             if self.Button_Attack.text() == 'Attack':
                 self.Button_Attack.setText('Attacking')
                 command=cmd.CMD_ATTACK+'#1'+'\n'
+                print (command)
                 self.client.send_data(command)
-            else:
+            elif self.Button_Attack.text() == 'Attacking':
                 self.Button_Attack.setText('Attack')
+                # command=cmd.CMD_ATTACK+'#0'+'\n'
                 command=cmd.CMD_ATTACK+'#0'+'\n'
-            print (command)
-            self.client.send_data(command)
+                print (command)
+                self.client.send_data(command)
         except Exception as e:
             print(e)
 
@@ -590,16 +592,6 @@ class MyWindow(QMainWindow,Ui_client):
                 result = result + self.label_leg6_front_value.text() + '#'
 
             command=cmd.CMD_SET_ANGLES + '#' + str(result) + '\n'
-            print (command)
-            self.client.send_data(command)
-        except Exception as e:
-            print(e)
-
-    def attack(self, servo, action):
-        try:
-            if type(servo) == int: command=cmd.CMD_ATTACK+'#'+str(servo)+'#'+str(action)+'\n'
-            else: 'Non-existent servo. Add cheese'
-
             print (command)
             self.client.send_data(command)
         except Exception as e:
