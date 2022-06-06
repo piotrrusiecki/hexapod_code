@@ -260,21 +260,25 @@ class Control:
                 if self.order[1] =="1":
                     print("Attacking!")
 
+                    servo_10 = self.angle[1][2]
                     servo_11 = self.angle[1][1]
                     servo_12 = self.angle[1][0]
 
                     servo_19 = self.angle[4][0]
                     servo_20 = self.angle[4][1]
+                    servo_21 = self.angle[4][2]
+
+                    servo_13 = self.angle[0][2]
+                    servo_14 = self.angle[0][1]
+                    servo_17 = self.angle[3][1]
+                    servo_18 = self.angle[3][2]
 
                     delay=0.01
-
-                    print(str(servo_11) + " " + str(servo_12) + " " + str(servo_19) + " " + str(servo_20))
 
                     for j in range(25):
                         servo_11 += 1
                         self.servo.setServoAngle(11,int(servo_11))
                         time.sleep(delay)
-                    print(servo_11)
 
                     for j in range(40):
                         servo_12 -= 1
@@ -282,10 +286,14 @@ class Control:
                         time.sleep(delay)
 
                     for j in range(25):
+                        servo_10 -= 1
+                        self.servo.setServoAngle(10,int(servo_10))
+                        time.sleep(delay)
+
+                    for j in range(25):
                         servo_11 -= 1
                         self.servo.setServoAngle(11,int(servo_11))
                         time.sleep(delay)
-                    print(servo_11)
 
                     for j in range(25):
                         servo_20 -= 1
@@ -298,21 +306,53 @@ class Control:
                         time.sleep(delay)
 
                     for j in range(25):
+                        servo_21 += 1
+                        self.servo.setServoAngle(21,int(servo_21))
+                        time.sleep(delay)
+
+                    for j in range(25):
                         servo_20 += 1
                         self.servo.setServoAngle(20,int(servo_20))
                         time.sleep(delay)
                     
-                    for j in range(25):
+                    for j in range(40):
                         servo_11 -= 1
                         servo_20 += 1
+                        servo_14 -= 1
+                        servo_17 += 1
                         self.servo.setServoAngle(11,int(servo_11))
                         self.servo.setServoAngle(20,int(servo_20))
+                        self.servo.setServoAngle(14,int(servo_14))
+                        self.servo.setServoAngle(17,int(servo_17))
+                        time.sleep(delay)
+
+                    for j in range(40):
+                        servo_14 += 1
+                        servo_17 -= 1
+                        self.servo.setServoAngle(14,int(servo_14))
+                        self.servo.setServoAngle(17,int(servo_17))
+                        time.sleep(delay)
+
+
+                    for j in range(40):
+                        servo_14 += 1
+                        servo_17 -= 1
+                        servo_13 -= 1
+                        servo_18 += 1
+                        self.servo.setServoAngle(14,int(servo_14))
+                        self.servo.setServoAngle(17,int(servo_17))
+                        self.servo.setServoAngle(13,int(servo_13))
+                        self.servo.setServoAngle(18,int(servo_18))
+                        time.sleep(delay)
+
+                    for j in range(25):
+                        servo_13 -= 1
+                        servo_18 += 1
+                        self.servo.setServoAngle(13,int(servo_13))
+                        self.servo.setServoAngle(18,int(servo_18))
                         time.sleep(delay)
 
                     self.order[1] = 0
-
-
-
 
             if cmd.CMD_SET_ANGLES in self.order:
                 print('Order')
