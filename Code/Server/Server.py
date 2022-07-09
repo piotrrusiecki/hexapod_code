@@ -18,19 +18,7 @@ from Command import COMMAND as cmd
 class Server:
     def __init__(self):
         self.tcp_flag=False
-        self.led=Led()
-        self.adc=ADC()
-        self.servo=Servo()
-        self.buzzer=Buzzer()
-        self.control=Control()
-        self.sonic=Ultrasonic()
-        self.control.Thread_conditiona.start()
-    def get_interface_ip(self):
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        return socket.inet_ntoa(fcntl.ioctl(s.fileno(),
-                                            0x8915,
-                                            struct.pack('256s',b'wlan0'[:15])
-                                            )[20:24])
+        s 
     def turn_on_server(self):
         #ip adress
         HOST=self.get_interface_ip()
@@ -102,7 +90,7 @@ class Server:
                         break
         except BaseException as e:
             #print(e)
-            print ("Camera unintall")
+            print ("Camera uninit")
             
     def receive_instruction(self):
         try:

@@ -7,8 +7,7 @@ def test_Led():
         print ("\nRed wipe")
         led.colorWipe(led.strip, Color(255, 0, 0)) 
         time.sleep(1)
-        
-        
+       
         #Green wipe
         print ("\nGreen wipe")
         led.colorWipe(led.strip, Color(0, 255, 0)) 
