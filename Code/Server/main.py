@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# Test comment
+
 import os
 import sys,getopt
 from ui_server import Ui_server
