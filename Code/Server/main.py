@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-# Another change
-
 import os
 import sys,getopt
 from ui_server import Ui_server
